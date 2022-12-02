@@ -1,0 +1,55 @@
+
+.label {
+     -fx-text-fill: black;
+     -fx-font-family: Arial;
+}
+
+.mod {
+     -fx-text-fill: white !important;
+     -fx-font-family: Arial;
+}
+
+.text-field {
+    -fx-text-fill: black;
+}
+
+.text-area {
+	-fx-text-fill: black;
+}
+
+.text-area *.content {
+    -fx-background-color:  #B1B2FF;
+    -fx-border-color: #B1B2FF;
+}
+
+.mod *.content {
+	 -fx-background-color:  black !important;
+	 -fx-text-fill: white !important;
+} 
+
+.mod2 *.content {
+	 -fx-background-color:  #D2DAFF !important;
+	 -fx-text-fill: black !important;
+} 
+
+.mod2 {
+	-fx-background-radius: 20px;
+	-fx-border-radius: 20px;
+}
+
+.button {
+	-fx-cursor: hand;
+}
+
+.scroll {
+	-fx-background: black;
+}
+
+.menu-item {
+    -fx-background-color:  #B1B2FF;
+    -fx-font-size: 14px;
+}
+
+.menu-item:focused {
+     -fx-background-color: #D2DAFF;
+}

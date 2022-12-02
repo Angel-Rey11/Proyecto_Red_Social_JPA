@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../css/cssFont.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iesfranciscodelosrios.Proyecto_RedSocial.PerfilAuxController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="136.0" style="-fx-background-color: B1B2FF;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="46.0" layoutX="45.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/social-media.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="22.0" layoutY="68.0" style="-fx-font-size: 18px;" text="POST LIFE" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="54.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home-icon-silhouette.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="47.0" layoutY="153.0" style="-fx-font-size: 14px;" text="HOME" />
+            <Button layoutX="2.0" layoutY="106.0" mnemonicParsing="false" onAction="#switchToMain" opacity="0.0" prefHeight="65.0" prefWidth="129.0" style="-fx-background-color: B1B2FF;" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="53.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/bell-ring.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="7.0" layoutY="228.0" style="-fx-font-size: 14px;" text="NOTIFICACIONES" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="53.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user%20(2).png" />
+               </image>
+            </ImageView>
+            <Label layoutX="42.0" layoutY="306.0" style="-fx-font-size: 14px;" text="PERFIL" />
+            <Button layoutX="7.0" layoutY="181.0" mnemonicParsing="false" opacity="0.0" prefHeight="65.0" prefWidth="119.0" style="-fx-background-color: B1B2FF;" text="Button" />
+            <Button layoutX="7.0" layoutY="259.0" mnemonicParsing="false" onAction="#switchToProfile" opacity="0.0" prefHeight="65.0" prefWidth="119.0" style="-fx-background-color: B1B2FF;" text="Button" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="52.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/menu.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="51.0" layoutY="379.0" style="-fx-font-size: 14px;" text="MÁS" />
+            <MenuButton layoutX="13.0" layoutY="344.0" mnemonicParsing="false" opacity="0.0" prefHeight="52.0" prefWidth="105.0">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#switchToConf" text="Ajustes" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToLogin" text="Cerrar Sesión" />
+               </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="136.0" prefHeight="500.0" prefWidth="565.0" style="-fx-background-color: black;">
+         <children>
+            <Separator layoutY="75.0" prefHeight="21.0" prefWidth="565.0" style="-fx-background-color: black;" />
+            <AnchorPane layoutY="-3.0" prefHeight="87.0" prefWidth="565.0" style="-fx-background-color: D2DAFF;">
+               <children>
+                  <Label layoutX="110.0" layoutY="65.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" text="\@" />
+                  <Label fx:id="nickname" layoutX="125.0" layoutY="65.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" text="Label" />
+               </children></AnchorPane>
+            <Separator layoutY="191.0" prefHeight="7.0" prefWidth="565.0" style="-fx-background-color: B1B2FF;" />
+            <AnchorPane layoutY="98.0" prefHeight="100.0" prefWidth="565.0" style="-fx-background-color: transparent;">
+               <children>
+                  <Label layoutX="122.0" layoutY="58.0" style="-fx-font-size: 14px;" styleClass="mod" text="Seguidores" />
+                  <Label layoutX="272.0" layoutY="58.0" style="-fx-font-size: 14px;" styleClass="mod" text="Seguidos" />
+                  <Label layoutX="402.0" layoutY="58.0" style="-fx-font-size: 14px;" styleClass="mod" text="Posts" />
+                  <Label fx:id="nFollower" layoutX="201.0" layoutY="58.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" styleClass="mod" text="150" />
+                  <Label fx:id="nFollowing" layoutX="339.0" layoutY="58.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" styleClass="mod" text="20" />
+                  <Label fx:id="nPost" layoutX="444.0" layoutY="58.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" styleClass="mod" text="3" />
+                  <TextArea fx:id="bio" layoutX="122.0" layoutY="-6.0" prefHeight="52.0" prefWidth="395.0" styleClass="mod" />
+                  <ImageView fitHeight="25.0" fitWidth="24.0" layoutX="35.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/attach.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="68.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/share.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="unfollow" layoutX="14.0" layoutY="60.0" mnemonicParsing="false" onAction="#unfollow" prefHeight="28.0" prefWidth="100.0" style="-fx-background-color: black; -fx-border-color: AAC4FF; -fx-background-radius: 20px; -fx-border-radius: 20px;" text="Siguiendo" textFill="#aac4ff" visible="false">
+                     <graphic>
+                        <ImageView fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/check.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="follow" layoutX="482.0" layoutY="54.0" mnemonicParsing="false" onAction="#follow" prefHeight="28.0" prefWidth="65.0" style="-fx-background-color: black; -fx-border-color: white; -fx-background-radius: 20px; -fx-border-radius: 20px;" text="Seguir" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="82.0" fitWidth="79.0" layoutX="23.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/gamer.png" />
+               </image>
+            </ImageView>
+            <ScrollPane layoutY="198.0" prefHeight="302.0" prefWidth="565.0" styleClass="scroll">
+               <content>
+                  <GridPane fx:id="postGrid">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../css/cssLogin.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iesfranciscodelosrios.Proyecto_RedSocial.ConfController">
+   <children>
+      <AnchorPane prefHeight="500.0" prefWidth="136.0" style="-fx-background-color: B1B2FF;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="46.0" layoutX="45.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/social-media.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="22.0" layoutY="68.0" style="-fx-font-size: 18px;" text="POST LIFE" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="54.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home-icon-silhouette.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="47.0" layoutY="153.0" style="-fx-font-size: 14px;" text="HOME" />
+            <Button layoutX="2.0" layoutY="106.0" mnemonicParsing="false" onAction="#switchToHome" opacity="0.0" prefHeight="65.0" prefWidth="129.0" style="-fx-background-color: B1B2FF;" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="53.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/bell-ring.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="7.0" layoutY="228.0" style="-fx-font-size: 14px;" text="NOTIFICACIONES" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="53.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/user%20(2).png" />
+               </image>
+            </ImageView>
+            <Label layoutX="42.0" layoutY="306.0" style="-fx-font-size: 14px;" text="PERFIL" />
+            <Button layoutX="7.0" layoutY="181.0" mnemonicParsing="false" opacity="0.0" prefHeight="65.0" prefWidth="119.0" style="-fx-background-color: B1B2FF;" text="Button" />
+            <Button layoutX="7.0" layoutY="259.0" mnemonicParsing="false" onAction="#switchToProfile" opacity="0.0" prefHeight="65.0" prefWidth="119.0" style="-fx-background-color: B1B2FF;" text="Button" />
+            <ImageView fitHeight="28.0" fitWidth="36.0" layoutX="52.0" layoutY="344.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/menu.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="51.0" layoutY="379.0" style="-fx-font-size: 14px;" text="MÁS" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="136.0" prefHeight="500.0" prefWidth="565.0" style="-fx-background-color: black;">
+         <children>
+            <Label layoutX="206.0" layoutY="14.0" style="-fx-font-size: 18px;" styleClass="mod" text="CONFIGURACIÓN" />
+            <Label layoutX="231.0" layoutY="35.0" styleClass="mod" text="Nombre de usuario" />
+            <AnchorPane layoutY="62.0" prefHeight="73.0" prefWidth="565.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="14.0" style="-fx-font-size: 16px;" styleClass="mod" text="Tu cuenta" />
+                  <Label layoutX="58.0" layoutY="34.0" style="-fx-font-size: 12px;" styleClass="mod2" text="Consulta la información de tu cuenta u obtén información más detallada de sus ajustes" />
+                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/user%20(3).png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="2.0" layoutY="7.0" mnemonicParsing="false" onAction="#switchToEditProfile" opacity="0.0" prefHeight="57.0" prefWidth="559.0" />
+                  <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="530.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/angle-right.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-1.0" layoutY="135.0" prefHeight="73.0" prefWidth="565.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="14.0" style="-fx-font-size: 16px;" styleClass="mod" text="Seguridad y acceso a la cuenta" />
+                  <Label layoutX="58.0" layoutY="34.0" style="-fx-font-size: 12px;" styleClass="mod2" text="Administra la seguridad de tu cuenta y lleva un control de su uso" />
+                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/shield.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="3.0" layoutY="3.0" mnemonicParsing="false" opacity="0.0" prefHeight="57.0" prefWidth="559.0" />
+                  <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="532.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/angle-right.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutY="213.0" prefHeight="73.0" prefWidth="565.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="14.0" style="-fx-font-size: 16px;" styleClass="mod" text="Privacidad" />
+                  <Label layoutX="58.0" layoutY="34.0" style="-fx-font-size: 12px;" styleClass="mod2" text="Administra que información ves y compartes" />
+                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/document.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="3.0" layoutY="3.0" mnemonicParsing="false" opacity="0.0" prefHeight="57.0" prefWidth="559.0" />
+                  <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="530.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/angle-right.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-1.0" layoutY="295.0" prefHeight="73.0" prefWidth="565.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="14.0" style="-fx-font-size: 16px;" styleClass="mod" text="Accesibilidad" />
+                  <Label layoutX="58.0" layoutY="34.0" style="-fx-font-size: 12px;" styleClass="mod2" text="Administra como ves el contenido" />
+                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/accesibility.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="3.0" layoutY="3.0" mnemonicParsing="false" opacity="0.0" prefHeight="57.0" prefWidth="559.0" />
+                  <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="534.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/angle-right.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="-1.0" layoutY="377.0" prefHeight="73.0" prefWidth="565.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="14.0" style="-fx-font-size: 16px;" styleClass="mod" text="Recursos Adicionales" />
+                  <Label layoutX="58.0" layoutY="34.0" style="-fx-font-size: 12px;" styleClass="mod2" text="Consulta otros lugares para obtener más información" />
+                  <ImageView fitHeight="28.0" fitWidth="31.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/more%20(3).png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="3.0" layoutY="3.0" mnemonicParsing="false" opacity="0.0" prefHeight="57.0" prefWidth="559.0" />
+                  <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="534.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/angle-right.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

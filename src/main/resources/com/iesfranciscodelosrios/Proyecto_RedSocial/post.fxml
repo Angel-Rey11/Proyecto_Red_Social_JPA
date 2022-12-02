@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="520.0" style="-fx-background-color: B1B2FF;" stylesheets="@../css/Post.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iesfranciscodelosrios.Proyecto_RedSocial.PostController">
+   <children>
+      <ImageView fitHeight="45.0" fitWidth="47.0" layoutX="28.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/gamer.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="name" layoutX="90.0" layoutY="27.0" style="-fx-font-size: 14px; -fx-font-weight: bolder;" text="Nombre del usuario" />
+      <Label fx:id="post2" layoutX="90.0" layoutY="50.0" style="-fx-font-size: 14px;" text="Post" />
+      <ImageView fx:id="img1" fitHeight="28.0" fitWidth="27.0" layoutX="90.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/like.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="img2" fitHeight="28.0" fitWidth="27.0" layoutX="90.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/like%20(1).png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="27.0" layoutX="167.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/chat-bubble.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="27.0" layoutX="247.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/share2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="27.0" layoutX="466.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/more%20(2).png" />
+         </image>
+      </ImageView>
+      <Button layoutX="161.0" layoutY="109.0" mnemonicParsing="false" onAction="#switchToComments" opacity="0.0" prefHeight="27.0" prefWidth="38.0" />
+      <Button layoutX="241.0" layoutY="109.0" mnemonicParsing="false" opacity="0.0" prefHeight="27.0" prefWidth="38.0" />
+      <Button fx:id="mg" layoutX="85.0" layoutY="109.0" mnemonicParsing="false" onAction="#mg" opacity="0.0" prefHeight="27.0" prefWidth="38.0" />
+      <Button fx:id="dmg" layoutX="85.0" layoutY="109.0" mnemonicParsing="false" onAction="#dmg" opacity="0.0" prefHeight="27.0" prefWidth="38.0" />
+      <Button layoutX="25.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToProfile" opacity="0.0" prefHeight="51.0" prefWidth="52.0" />
+      <Label fx:id="fecha" layoutX="377.0" layoutY="113.0" style="-fx-font-size: 14px;" text="Fecha" />
+      <MenuButton layoutX="459.0" layoutY="25.0" mnemonicParsing="false" opacity="0.0" popupSide="LEFT" prefHeight="25.0" prefWidth="45.0" style="-fx-font-size: 14px;">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#deletePost" text="Eliminar Post" />
+        </items>
+      </MenuButton>
+      <Label fx:id="nLikes" layoutX="123.0" layoutY="114.0" style="-fx-font-size: 14px;" />
+      <Label fx:id="nComments" layoutX="199.0" layoutY="114.0" style="-fx-font-size: 14px;" />
+   </children>
+</AnchorPane>

@@ -1,6 +1,15 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "LIKE")
 public class Like {
+	@Id
+	@Column
 	private int id;
 	private User user;
 	private Post post;

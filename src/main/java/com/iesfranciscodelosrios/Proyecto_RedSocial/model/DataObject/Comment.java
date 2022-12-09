@@ -4,9 +4,20 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "COMMENT")
 public class Comment {
+	@Id
+	@Column
 	private int id;
+	@Column
 	private String text;
+	@Column
 	private Timestamp date;
 	private User user;
 	private Post post;

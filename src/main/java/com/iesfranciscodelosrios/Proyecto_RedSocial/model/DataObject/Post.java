@@ -2,10 +2,21 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 import java.sql.Timestamp;
 
-public class Post {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "POST")
+public class Post {
+	
+	@Id
+	@Column
 	protected int id;
+	@Column
 	protected Timestamp creationDate;
+	@Column
 	protected String text;
 	protected User user;
 	

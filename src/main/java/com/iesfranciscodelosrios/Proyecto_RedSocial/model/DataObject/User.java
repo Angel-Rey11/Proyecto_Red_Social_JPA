@@ -4,11 +4,24 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 import java.sql.Connection;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "USER")
 public class User {
+	@Id
+	@Column
     private int id;
+	@Column
     private String name;
+	@Column
     private String nickname;
+	@Column
     private String password;
+	@Column
     private String biografia;
 
     public User(int id, String nickname, String name, String password, String biografia) {

@@ -1,7 +1,16 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
-public class Follow {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "FOLLOW")
+public class Follow {
+	
+	@Id
+	@Column
 	protected int id;
 	protected User follower;
 	protected User following;

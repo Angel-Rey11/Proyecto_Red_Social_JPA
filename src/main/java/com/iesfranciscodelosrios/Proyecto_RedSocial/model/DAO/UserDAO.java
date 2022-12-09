@@ -1,7 +1,6 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Connection.Connect;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IUserDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
@@ -13,6 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -28,6 +31,8 @@ public class UserDAO extends User{
     private final static String LOGIN = "SELECT * FROM user WHERE nickname = ? AND password = ?";
     private final static String MODIFYBIO = "UPDATE `user` SET `biografia` = ? WHERE `user`.`id` = ?";
     private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
+    private static EntityManager manager;
+	private static EntityManagerFactory emf;
     
     public UserDAO(){}
     public UserDAO(int id, String name, String nickname, String password, String biografia) {
@@ -46,7 +51,12 @@ public class UserDAO extends User{
      * @return true si se ha insertado correctamente
      */
     public boolean insert() {
-        
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		manager.getTransaction().begin();
+		manager.persist(this);
+		manager.getTransaction().commit();
+		manager.close();
     }
 
     /**
@@ -54,7 +64,12 @@ public class UserDAO extends User{
      * @return true si se ha eliminado correctamente
      */
     public boolean delete() {
-       
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		manager.getTransaction().begin();
+		manager.remove(this);
+		manager.getTransaction().commit();
+		manager.close();
     }
 
     /**
@@ -62,7 +77,11 @@ public class UserDAO extends User{
      * @return true si se ha actualizado correctamente
      */
     public boolean update() {
-        
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		manager.getTransaction().begin();
+		manager.getTransaction().commit();
+		manager.close();
     }
 
     /**
@@ -80,7 +99,11 @@ public class UserDAO extends User{
      * @return La lista con todos los seguidores
      */
     public List<UserDAO> getAllFollower() {
-        
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		List<UserDAO> misUsuarios = manager.createQuery(GETALLFOLLOWER).getResultList();
+		manager.close();
+		return misUsuarios;
     }
 
     /**
@@ -88,7 +111,11 @@ public class UserDAO extends User{
      * @return La lista con todos los usuarios que sigue
      */
     public List<UserDAO> getAllFollowing() {
-        
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		List<UserDAO> misUsuarios = manager.createQuery(GETALLFOLLOWING).getResultList();
+		manager.close();
+		return misUsuarios;
     }
     /**
      * Busca a un usuario en la base de datos por su id
@@ -113,6 +140,10 @@ public class UserDAO extends User{
      * @return La lista con los usuarios random
      */
     public List<UserDAO> getRandomUsers(){
-    	
+    	emf = Persistence.createEntityManagerFactory("sql");
+		manager = emf.createEntityManager();
+		List<UserDAO> randomsUsers = manager.createQuery(RANDOMUSER).getResultList();
+		manager.close();
+		return randomsUsers;
     }
 }

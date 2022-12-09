@@ -6,6 +6,7 @@ module com.iesfranciscodelosrios.Proyecto_RedSocial {
     requires java.xml.bind;
 	requires javafx.graphics;
     requires org.apache.commons.codec;
+	requires java.persistence;
 
     opens com.iesfranciscodelosrios.Proyecto_RedSocial to javafx.fxml;
     opens com.iesfranciscodelosrios.Proyecto_RedSocial.Connection to java.xml.bind;

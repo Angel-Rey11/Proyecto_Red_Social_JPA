@@ -79,8 +79,12 @@ public class UserDAO extends User{
     public boolean update() {
     	emf = Persistence.createEntityManagerFactory("sql");
 		manager = emf.createEntityManager();
-		manager.getTransaction().begin();
-		manager.getTransaction().commit();
+		UserDAO aux = manager.find(UserDAO.class, this.getId());
+		aux.setNickname(this.getNickname());
+		aux.setName(this.getName());
+		aux.setPassword(this.getPassword());
+		aux.setBiografia(this.getBiografia());
+		manager.merge(aux);
 		manager.close();
     }
 

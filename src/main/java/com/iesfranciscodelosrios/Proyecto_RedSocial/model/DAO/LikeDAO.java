@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Connection.Connect;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.ILikeDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Like;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
@@ -63,7 +62,7 @@ public class LikeDAO extends Like implements ILikeDAO {
 	 */
 	@Override
 	public boolean create(int id_post) {
-		
+		return false;
 	}
 
 	/**
@@ -72,7 +71,7 @@ public class LikeDAO extends Like implements ILikeDAO {
 	 */
 	@Override
 	public boolean delete(int id_post) {
-		
+		return false;
 	}
 	
 	/**
@@ -82,7 +81,7 @@ public class LikeDAO extends Like implements ILikeDAO {
 	 */
 	@Override
 	public List<LikeDAO> getAllLikesbyPost(int id_post) {
-		
+		return null;
 	}
 	
 	/**
@@ -92,9 +91,9 @@ public class LikeDAO extends Like implements ILikeDAO {
 	 */
 	@Override
 	public LikeDAO find(int id) {
-		
+		return null;
 	}
 	public int countLikes(int id_post) {
-		
+		return 0;
 	}
 }

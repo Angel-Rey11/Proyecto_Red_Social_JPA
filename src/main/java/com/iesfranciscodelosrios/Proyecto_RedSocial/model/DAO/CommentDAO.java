@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Connection.Connect;
+
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.ICommentDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
@@ -72,7 +72,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean create() {
-		
+		return false;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean delete() {
-		
+		return false;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean update() {
-		
+		return false;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public CommentDAO find(int id) {
-		
+		return null;
 	}
 	
 	/**
@@ -110,9 +110,9 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public List<CommentDAO> getAllCommentsByIdPost(int id) {
-		
+		return null;
 	}
 	public int getCommentsCount(int id_post) {
-		
+		return 0;
 	}
 }

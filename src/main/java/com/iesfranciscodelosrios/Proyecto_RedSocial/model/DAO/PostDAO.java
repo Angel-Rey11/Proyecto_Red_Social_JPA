@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Connection.Connect;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
@@ -42,7 +41,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean create() {
-		
+		return false;
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean delete() {
-		
+		return false;
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean update() {
-		
+		return false;
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public PostDAO find(int id) {
-		
+		return null;
 	}
 	
 	/**
@@ -83,7 +82,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @return el post de la lista obtenida por sus campos.
 	 */
 	public static List<PostDAO> findAllByFollower() {
-		
+		return null;
 	}
 	
 	/**
@@ -92,6 +91,7 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @return el post de la lista obtenida por el usuario.
 	 */
 	public static List<PostDAO> getPostsByUser(int id){
-		
+		return null;
 	}
+
 }

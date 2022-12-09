@@ -1,13 +1,13 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
+
 import java.sql.Connection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "USER")
@@ -23,6 +23,9 @@ public class User {
     private String password;
 	@Column
     private String biografia;
+    private List<User> followers;
+    private List<UserDAO> following;
+    private List<PostDAO> posts;
 
     public User(int id, String nickname, String name, String password, String biografia) {
         this.id = id;

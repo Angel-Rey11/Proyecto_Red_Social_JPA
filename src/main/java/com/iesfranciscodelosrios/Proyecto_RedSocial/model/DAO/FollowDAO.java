@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Connection.Connect;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IFollowDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
@@ -42,7 +41,7 @@ public class FollowDAO extends Follow implements IFollowDAO {
 	 */
 	@Override
 	public boolean create() {
-		
+		return false;
 	}
 
 	/**
@@ -52,7 +51,7 @@ public class FollowDAO extends Follow implements IFollowDAO {
 	 */
 	@Override
 	public boolean delete() {
-		
+		return false;
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class FollowDAO extends Follow implements IFollowDAO {
 	 */
 	@Override
 	public boolean update() {
-		
+		return false;
 	}
 
 	/**
@@ -74,6 +73,6 @@ public class FollowDAO extends Follow implements IFollowDAO {
 	 */
 	@Override
 	public FollowDAO find(int id) {
-		
+		return null;
 	}
 }

@@ -36,7 +36,7 @@ public class UserDAO extends User{
     public static EntityManager manager;
     public static EntityManagerFactory emf;
     public UserDAO(){
-        con = new Connection();
+        con = new Connection<UserDAO>();
     }
     public UserDAO(int id, String name, String nickname, String password, String biografia) {
         super(id, name, nickname, password, biografia);

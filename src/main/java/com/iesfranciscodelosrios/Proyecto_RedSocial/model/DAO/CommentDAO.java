@@ -1,6 +1,5 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.ICommentDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
@@ -22,6 +22,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 public class CommentDAO extends Comment implements ICommentDAO {
 	private UserDAO uDAO;
 	private PostDAO pDAO;
+	private Connection con;
 	
 	private final static String INSERT = "INSERT INTO Comments (text, date, id_user, id_post) VALUES (?, ?, ?, ?)";
 	private final static String DELETE = "DELETE FROM Comments WHERE id = ?";
@@ -36,6 +37,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	public CommentDAO() {
 		uDAO = new UserDAO();
 		pDAO = new PostDAO();
+		con = new Connection<CommentDAO>();
 	}
 	
 	/**
@@ -72,7 +74,11 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean create() {
-		return false;
+		if(con.insert(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -81,7 +87,11 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean delete() {
-		return false;
+		if(con.delete(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -90,7 +100,11 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean update() {
-		return false;
+		if (con.update(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -100,7 +114,8 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public CommentDAO find(int id) {
-		return null;
+		CommentDAO c = (CommentDAO) con.find(id,this.getClass());
+		return c;
 	}
 	
 	/**
@@ -110,7 +125,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public List<CommentDAO> getAllCommentsByIdPost(int id) {
-		return null;
+		return con.getList(GETALLBYPOST);
 	}
 	public int getCommentsCount(int id_post) {
 		return 0;

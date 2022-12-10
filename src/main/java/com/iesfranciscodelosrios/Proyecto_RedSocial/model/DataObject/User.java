@@ -23,9 +23,12 @@ public class User {
     private String password;
 	@Column
     private String biografia;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts;
+    @ManyToMany
+    @JoinTable(name = "FOLLOW", joinColumns = @JoinColumn(name = "user_id_follower"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User> followers;
-    private List<UserDAO> following;
-    private List<PostDAO> posts;
+    private List<User> following;
 
     public User(int id, String nickname, String name, String password, String biografia) {
         this.id = id;

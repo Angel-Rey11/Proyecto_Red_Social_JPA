@@ -35,6 +35,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
 public class MenuPrincipalController implements Initializable {
+	private PostDAO postDAO;
 	@FXML
 	private GridPane postGrid;
 	private List<PostDAO> posts;
@@ -52,6 +53,10 @@ public class MenuPrincipalController implements Initializable {
 	private Button b;
 	@FXML
 	private Label size;
+
+	public MenuPrincipalController() {
+		postDAO = new PostDAO();
+	}
 	
 	
 	/**
@@ -68,7 +73,7 @@ public class MenuPrincipalController implements Initializable {
 		int columns = 0;
 		int row = 1;
 			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(7), ev -> {
-				List<PostDAO> ls = PostDAO.findAllByFollower();
+				List<PostDAO> ls = postDAO.findAllByFollower();
 				if(posts.size()!=ls.size()) {
 					posts = new ArrayList<>(ls);
 					paintPost(posts);
@@ -157,7 +162,7 @@ public class MenuPrincipalController implements Initializable {
 	 * @return el array con la consulta generada
 	 */
 	private List<PostDAO> posts() {
-		List<PostDAO> ls = PostDAO.findAllByFollower();
+		List<PostDAO> ls = postDAO.findAllByFollower();
 		
 		return ls;
 	}

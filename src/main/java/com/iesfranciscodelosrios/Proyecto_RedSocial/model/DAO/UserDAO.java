@@ -100,13 +100,7 @@ public class UserDAO extends User{
      * @return La lista con todos los seguidores
      */
     public List<UserDAO> getAllFollower() {
-    	emf = Persistence.createEntityManagerFactory("sql");
-		manager = emf.createEntityManager();
-        manager.getTransaction().begin();
-		List<UserDAO> misUsuarios = manager.createQuery(GETALLFOLLOWER).getResultList();
-        manager.getTransaction().commit();
-		manager.close();
-		return misUsuarios;
+    	return con.getList(GETALLFOLLOWER);
     }
 
     /**
@@ -114,22 +108,17 @@ public class UserDAO extends User{
      * @return La lista con todos los usuarios que sigue
      */
     public List<UserDAO> getAllFollowing() {
-    	emf = Persistence.createEntityManagerFactory("sql");
-		manager = emf.createEntityManager();
-        manager.getTransaction().begin();
-		List<UserDAO> misUsuarios = manager.createQuery(GETALLFOLLOWING).getResultList();
-        manager.getTransaction().commit();
-		manager.close();
-		return misUsuarios;
+    	return con.getList(GETALLFOLLOWING);
     }
     /**
      * Busca a un usuario en la base de datos por su id
      * @param id id del usuario
      * @return El usuario encontrado
      */
-    /*public UserDAO find(int id) {
-
-    }*/
+    public UserDAO find(int id) {
+        UserDAO u = (UserDAO) con.find(id,this.getClass());
+        return u;
+    }
 
     /**
      * Busca a un usuario en la base de datos por su nickname

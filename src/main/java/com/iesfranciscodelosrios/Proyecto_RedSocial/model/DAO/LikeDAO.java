@@ -23,9 +23,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
  *
  */
 public class LikeDAO extends Like {
-	private final static String INSERT = "INSERT INTO Likes (id_user, id_post) VALUES (?, ?)";
-	private final static String DELETE = "DELETE FROM Likes WHERE id_post = ? and id_user = ?";
-	private final static String GETALLLIKES = "SELECT * FROM Likes WHERE id_post = ?";
+	private final static String GETALLLIKES = "SELECT * FROM Likes WHERE id_post = ";
 	private final static String FIND = "SELECT * FROM Likes WHERE id = ?";
 	private final static String COUNTLIKES = "SELECT COUNT(*) FROM likes WHERE id_post=?";
 	
@@ -110,7 +108,7 @@ public class LikeDAO extends Like {
 	 * @return Like encontrado
 	 */
 	public LikeDAO find() {
-		LikeDAO like = (LikeDAO) con.find(this);
+		LikeDAO like = (LikeDAO) con.find(this.getId(),this.getClass());
 		return like;
 	}
 	

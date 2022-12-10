@@ -1,6 +1,5 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
 public class PostDAO extends Post implements IPostDAO {
+	private Connection con;
 	
 	//CONSULTAS DE MariaDB
 	private final static String INSERT = "INSERT INTO Post (id,creation_date, text, id_user) VALUES (NULL, ?, ?, ?)";
@@ -26,7 +27,9 @@ public class PostDAO extends Post implements IPostDAO {
 	//FIN DE LAS CONSULTAS
 	
 	//Constructores
-	public PostDAO() {}
+	public PostDAO() {
+		con = new Connection<PostDAO>();
+	}
 	public PostDAO(int id, Timestamp creationDate, String text, User user) { super(id, creationDate,text, user); }
 	public PostDAO(Post p) {
 		super(p.getId(), p.getCreationDate(), p.getText(), p.getUser());
@@ -41,7 +44,11 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean create() {
-		return false;
+		if(con.insert(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -51,7 +58,11 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean delete() {
-		return false;
+		if(con.delete(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -61,7 +72,11 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public boolean update() {
-		return false;
+		if (con.update(this)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -73,7 +88,8 @@ public class PostDAO extends Post implements IPostDAO {
 	 */
 	@Override
 	public PostDAO find(int id) {
-		return null;
+		PostDAO p = (PostDAO) con.find(id,this.getClass());
+		return p;
 	}
 	
 	/**
@@ -81,8 +97,8 @@ public class PostDAO extends Post implements IPostDAO {
 	 * la tabla Post.
 	 * @return el post de la lista obtenida por sus campos.
 	 */
-	public static List<PostDAO> findAllByFollower() {
-		return null;
+	public List<PostDAO> findAllByFollower() {
+		return con.getList(FINDALLBYFOLLOWER);
 	}
 	
 	/**
@@ -90,8 +106,8 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @param id el valor del campo por el que se obtiene. 
 	 * @return el post de la lista obtenida por el usuario.
 	 */
-	public static List<PostDAO> getPostsByUser(int id){
-		return null;
+	public List<PostDAO> getPostsByUser(){
+		return con.getList(FINDALLBYUSER);
 	}
 
 }

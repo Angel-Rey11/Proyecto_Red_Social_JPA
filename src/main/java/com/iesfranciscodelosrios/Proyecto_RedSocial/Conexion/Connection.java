@@ -2,8 +2,10 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Connection {
+public class Connection<T> {
 	public static EntityManager manager;
 	public static EntityManagerFactory emf;
 
@@ -12,7 +14,7 @@ public class Connection {
 		manager = emf.createEntityManager();
 	}
 
-	public boolean insert(Object o) {
+	public boolean insert(T o) {
 		try {
 			manager.getTransaction().begin();
 			manager.persist(o);
@@ -23,7 +25,7 @@ public class Connection {
 			return false;
 		}
 	}
-	public boolean update(Object o) {
+	public boolean update(T o) {
 		try {
 			manager.getTransaction().begin();
 			manager.merge(o);
@@ -34,7 +36,7 @@ public class Connection {
 			return false;
 		}
 	}
-	public boolean delete(Object o) {
+	public boolean delete(T o) {
 		try {
 			manager.getTransaction().begin();
 			manager.remove(o);
@@ -45,15 +47,37 @@ public class Connection {
 			return false;
 		}
 	}
-	public Object find(Object o) {
+	public T find(int id, Class<T> c) {
 		try {
 			manager.getTransaction().begin();
-			manager.find(o.getClass(), o.getClass().getDeclaredField("id"));
+			T o = manager.find(c, id);
 			manager.getTransaction().commit();
-			return true;
+			return o;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
+		}
+	}
+	public T find(String nickname, Class<T> c) {
+		try {
+			manager.getTransaction().begin();
+			T o = manager.find(c, nickname);
+			manager.getTransaction().commit();
+			return o;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public List<T> getList(String query) {
+		try {
+			manager.getTransaction().begin();
+			List<T> lista = manager.createQuery(query).getResultList();
+			manager.getTransaction().commit();
+			return lista;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<T>();
 		}
 	}
 }

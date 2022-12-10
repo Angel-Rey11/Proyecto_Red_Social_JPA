@@ -1,11 +1,11 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
-import java.sql.Timestamp;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "POST")
@@ -18,13 +18,17 @@ public class Post {
 	protected Timestamp creationDate;
 	@Column
 	protected String text;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	protected User user;
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	protected List<Like> likes;
 	
 	public Post() {
 		super();
 	}
 
-	public Post(int id, Timestamp creationDate, String text, User user) {
+	public Post(int id, Timestamp creationDate, String text, UserDAO user) {
 		this.id = id;
 		this.creationDate = creationDate;
 		this.text = text;
@@ -59,7 +63,7 @@ public class Post {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDAO user) {
 		this.user = user;
 	}
 

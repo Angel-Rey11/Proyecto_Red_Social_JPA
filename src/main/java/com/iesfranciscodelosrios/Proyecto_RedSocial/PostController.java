@@ -56,7 +56,7 @@ public class PostController implements Initializable {
 	 */
 	private void mg() {
 		like = new LikeDAO(-1,DataService.userLogeado,post.find(this.post.getId()));
-		if(like.create(this.post.getId())){
+		if(like.create()){
 			mg.setDisable(true);
 			dmg.setDisable(false);
 			img1.setVisible(false);
@@ -71,7 +71,7 @@ public class PostController implements Initializable {
 	 */
 	private void dmg() {
 		like = new LikeDAO(-1,DataService.userLogeado,this.post);
-		if(like.delete(this.post.getId())){
+		if(like.delete()){
 			mg.setDisable(false);
 			dmg.setDisable(true);
 			img1.setVisible(true);
@@ -122,7 +122,7 @@ public class PostController implements Initializable {
 		like = new LikeDAO();
 		comment= new CommentDAO();
 		boolean encontrado= false;
-		List<LikeDAO> likes = this.like.getAllLikesbyPost(this.post.getId());
+		List<LikeDAO> likes = this.like.getAllLikesbyPost();
 		nLikes.setText(like.countLikes(this.post.getId())+"");
 		nComments.setText(comment.getCommentsCount(this.post.getId())+"");
 		for (LikeDAO likeDAO : likes) {

@@ -1,9 +1,6 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "FOLLOW")
@@ -12,7 +9,10 @@ public class Follow {
 	@Id
 	@Column
 	protected int id;
+	@Column (name = "user_id_follower")
+	@ManyToMany (mappedBy = "user_id_follower")
 	protected User follower;
+	@Column (name = "user_id_following")
 	protected User following;
 
 	public Follow() {

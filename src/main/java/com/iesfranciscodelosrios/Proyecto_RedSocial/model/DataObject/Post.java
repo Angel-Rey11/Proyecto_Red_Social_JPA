@@ -38,7 +38,7 @@ public class Post {
 		super();
 	}
 
-	public Post(int id, Timestamp creationDate, String text, UserDAO user) {
+	public Post(int id, Timestamp creationDate, String text, User user) {
 		this.id = id;
 		this.creationDate = creationDate;
 		this.text = text;

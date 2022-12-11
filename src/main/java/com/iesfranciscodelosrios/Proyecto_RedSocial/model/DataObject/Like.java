@@ -21,7 +21,12 @@ public class Like {
 		
 	}
 	
-	public Like(LikeId idL, User user, Post post,int id) {
+	public Like(int id) {
+		super();
+		this.id = id;
+	}
+	
+	public Like(int id, User user, Post post) {
 		super();
 		this.id = id;
 		this.idL = new LikeId(user.getId(),post.getId());

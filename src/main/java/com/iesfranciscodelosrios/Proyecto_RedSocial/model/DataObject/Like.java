@@ -5,31 +5,46 @@ import javax.persistence.*;
 @Entity
 @Table(name = "LIKE")
 public class Like {
-	@Id
-	@Column
-	private int id;
-	@Column
+	
+	@EmbeddedId
+	private LikeId idL;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
 	private User user;
-	@Column
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("postId")
 	private Post post;
+	@Column(name = "id")
+	private int id;
 	
 	public Like() {
 		
 	}
 	
-	public Like(int id) {
+	public Like(LikeId idL, User user, Post post,int id) {
+		super();
 		this.id = id;
+		this.idL = new LikeId(user.getId(),post.getId());
+		this.user = user;
+		this.post = post;
 	}
-	
+
+	public LikeId getIdL() {
+		return idL;
+	}
+
+	public void setIdL(LikeId idL) {
+		this.idL = idL;
+	}
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}

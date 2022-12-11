@@ -1,10 +1,6 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
-
-import java.sql.Connection;
 import java.util.List;
 
 import javax.persistence.*;
@@ -13,22 +9,37 @@ import javax.persistence.*;
 @Table(name = "USER")
 public class User {
 	@Id
-	@Column
+	@Column(name = "id")
     private int id;
-	@Column
+	@Column(name = "name")
     private String name;
-	@Column
+	@Column(name = "nickname")
     private String nickname;
-	@Column
+	@Column(name = "password")
     private String password;
-	@Column
+	@Column(name = "biografia")
     private String biografia;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
+    @JoinTable(name = "follow", joinColumns = {
+    @JoinColumn(name = "id_user_follower", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
+    @JoinColumn(name = "id_user_following", referencedColumnName = "id", nullable = false)})
     @ManyToMany
-    @JoinTable(name = "FOLLOW", joinColumns = @JoinColumn(name = "user_id_follower"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private List<User> followers;
+    @ManyToMany(mappedBy = "followers")
     private List<User> following;
+    @OneToMany(
+    mappedBy = "user",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+    )
+    private List<Like> postsLikes;
+    @OneToMany(
+    mappedBy = "user",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+    )
+    private List<Comment> postComments;
 
     public User(int id, String nickname, String name, String password, String biografia) {
         this.id = id;
@@ -59,12 +70,10 @@ public class User {
         this.biografia = biografia;
     }
 
-
     public String getBiografia() {
         return biografia;
     }
-
-
+    
     public int getId() {
         return id;
     }
@@ -80,6 +89,31 @@ public class User {
     public String getPassword() {
         return password;
     }
+    
+	public List<Post> getPosts() {
+		return posts;
+	}
+	
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
+	public List<User> getFollowers() {
+		return followers;
+	}
+	
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+	
+	public List<User> getFollowing() {
+		return following;
+	}
+	
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", nickname=" + nickname + ", password=" + password

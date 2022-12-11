@@ -5,22 +5,32 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "COMMENT")
 public class Comment {
 	@Id
-	@Column
+	@Column(name = "id")
 	private int id;
-	@Column
+	@Column(name = "text")
 	private String text;
-	@Column
+	@Column(name = "date")
 	private Timestamp date;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("userId")
 	private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("postId")
 	private Post post;
+	@EmbeddedId
+	private CommentId idC;
 	
 	public Comment() {
 		
@@ -33,6 +43,16 @@ public class Comment {
 		this.date = date;
 		this.user = user;
 		this.post = post;
+		this.idC = new CommentId(user.getId(),post.getId());
+	}
+	
+
+	public CommentId getIdC() {
+		return idC;
+	}
+
+	public void setIdC(CommentId idC) {
+		this.idC = idC;
 	}
 
 	public int getId() {

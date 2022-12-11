@@ -12,17 +12,27 @@ import javax.persistence.*;
 public class Post {
 	
 	@Id
-	@Column
+	@Column(name = "id")
 	protected int id;
-	@Column
+	@Column(name = "creation_date")
 	protected Timestamp creationDate;
-	@Column
+	@Column(name = "text")
 	protected String text;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "id_user")
 	protected User user;
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	protected List<Like> likes;
+	@OneToMany(
+	mappedBy = "post",
+	cascade = CascadeType.ALL,
+	orphanRemoval = true
+	)
+	protected List<Like> userLikes;
+	@OneToMany(
+	mappedBy = "post",
+	cascade = CascadeType.ALL,
+	orphanRemoval = true
+	)
+	protected List<Comment> userComments;
 	
 	public Post() {
 		super();

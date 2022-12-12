@@ -1,28 +1,16 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
 public class PostDAO {
 	
 	//CONSULTAS DE MariaDB
-	private final static String INSERT = "INSERT INTO Post (id,creation_date, text, id_user) VALUES (NULL, ?, ?, ?)";
-	private final static String UPDATE = "UPDATE Post SET creation_date = ?, modification_date = ?, text = ?, id_user = ? WHERE id = ?";
-	private final static String DELETE = "DELETE FROM Post WHERE id = ?";
-	private final static String FIND = "SELECT id, creation_date, text, id_user FROM Post WHERE id = ?";
 	private final static String FINDALLBYFOLLOWER = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+") GROUP BY p.id Order by p.creation_date desc";
 	private final static String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(DataService.userLogeado.getId())+" GROUP BY creation_date DESC";
 	//FIN DE LAS CONSULTAS

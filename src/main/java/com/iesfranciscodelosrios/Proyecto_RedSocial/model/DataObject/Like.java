@@ -20,6 +20,7 @@ public class Like implements Serializable {
     @MapsId("postId")
 	private Post post;
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	public Like() {

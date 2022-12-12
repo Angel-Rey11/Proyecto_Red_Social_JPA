@@ -6,19 +6,24 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class UserDAO {
+
 	
     private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
 
     private static EntityManager manager;
+    private static EntityManagerFactory emf;
 
     /**
      * Inserta un usuario en la base de datos
      * @return true si se ha insertado correctamente
      */
     public boolean insert(User user) {
-    	manager = Connection.getConnect().createEntityManager();
+    	emf = Persistence.createEntityManagerFactory("sql");
+        manager = emf.createEntityManager();
     	boolean result=false;
     	if(!manager.contains(user)) {
     		 manager.getTransaction().begin();

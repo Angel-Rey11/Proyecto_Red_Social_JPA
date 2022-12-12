@@ -10,6 +10,7 @@ module com.iesfranciscodelosrios.Proyecto_RedSocial {
 
     opens com.iesfranciscodelosrios.Proyecto_RedSocial to javafx.fxml;
     opens com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion to java.xml.bind;
+    opens com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
     exports com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion;
     exports com.iesfranciscodelosrios.Proyecto_RedSocial;
 }

@@ -98,7 +98,7 @@ public class PerfilController extends DataService implements Initializable{
 		
 		nFollower.setText(String.valueOf(uDAO.getAllFollower(userLogeado).size()));
 		nFollowing.setText(String.valueOf(uDAO.getAllFollowing(userLogeado).size()));
-		List<Post> listPost = pDAO.getPostsByUser();
+		List<Post> listPost = pDAO.getPostsByUser(userLogeado);
 		nPost.setText(String.valueOf(listPost.size()));
 		
 		posts = new ArrayList<>(posts());
@@ -126,7 +126,7 @@ public class PerfilController extends DataService implements Initializable{
 		}
 	}
 	private List<Post> posts() {
-		List<Post> ls = pDAO.getPostsByUser();
+		List<Post> ls = pDAO.getPostsByUser(userLogeado);
 		return ls;
 	}
 }

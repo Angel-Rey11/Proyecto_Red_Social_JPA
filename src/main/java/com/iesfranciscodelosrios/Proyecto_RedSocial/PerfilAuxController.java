@@ -56,7 +56,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 		bio.setEditable(false);
 		nFollower.setText(String.valueOf(uDAO.getAllFollower(DataService.pAux.getUser()).size()));
 		nFollowing.setText(String.valueOf(uDAO.getAllFollowing(DataService.pAux.getUser()).size()));
-		List<Post> listPost = pDAO.getPostsByUser();
+		List<Post> listPost = pDAO.getPostsByUser(pAux.getUser());
 		nPost.setText(String.valueOf(listPost.size()));
 		unfollow.setVisible(false);
 		follow.setVisible(true);
@@ -97,7 +97,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 	}
 	
 	private List<Post> posts() {
-		List<Post> ls = pDAO.getPostsByUser();
+		List<Post> ls = pDAO.getPostsByUser(pAux.getUser());
 		return ls;
 	}
 	

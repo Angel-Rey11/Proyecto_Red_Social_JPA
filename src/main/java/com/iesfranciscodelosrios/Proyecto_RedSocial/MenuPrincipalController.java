@@ -75,7 +75,7 @@ public class MenuPrincipalController extends DataService implements Initializabl
 		int columns = 0;
 		int row = 1;
 			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(7), ev -> {
-				List<Post> ls = pDAO.findAllByFollower();
+				List<Post> ls = pDAO.findAllByFollower(userLogeado);
 				if(posts.size()!=ls.size()) {
 					posts = new ArrayList<>(ls);
 					paintPost(posts);
@@ -164,7 +164,7 @@ public class MenuPrincipalController extends DataService implements Initializabl
 	 * @return el array con la consulta generada
 	 */
 	private List<Post> posts() {
-		List<Post> ls = pDAO.findAllByFollower();
+		List<Post> ls = pDAO.findAllByFollower(userLogeado);
 		return ls;
 	}
 	

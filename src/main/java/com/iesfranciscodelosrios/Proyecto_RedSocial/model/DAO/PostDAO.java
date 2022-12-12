@@ -7,12 +7,11 @@ import javax.persistence.EntityManager;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
 public class PostDAO {
 	
 	//CONSULTAS DE MariaDB
-	private final static String FINDALLBYFOLLOWER = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+") GROUP BY p.id Order by p.creation_date desc";
-	private final static String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(DataService.userLogeado.getId())+" GROUP BY creation_date DESC";
 	//FIN DE LAS CONSULTAS
 	private static EntityManager manager;
 	
@@ -91,10 +90,11 @@ public class PostDAO {
 	 * la tabla Post.
 	 * @return el post de la lista obtenida por sus campos.
 	 */
-	public List<Post> findAllByFollower() {
+	public List<Post> findAllByFollower(User user) {
+		String sql = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(user.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(user.getId())+") GROUP BY p.id Order by p.creation_date desc";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		misPost = manager.createQuery(FINDALLBYFOLLOWER).getResultList();
+		misPost = manager.createQuery(sql).getResultList();
 		manager.close();
 		return misPost;
 	}
@@ -104,7 +104,8 @@ public class PostDAO {
 	 * @param id el valor del campo por el que se obtiene. 
 	 * @return el post de la lista obtenida por el usuario.
 	 */
-	public List<Post> getPostsByUser() {
+	public List<Post> getPostsByUser(User user) {
+		String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(user.getId())+" GROUP BY creation_date DESC";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
 		misPost = manager.createQuery(FINDALLBYUSER).getResultList();

@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "POST")
-public class Post implements Serializable {
+public class Post {
 	
 	@Id
 	@Column(name = "id")
@@ -74,7 +74,7 @@ public class Post implements Serializable {
 		return user;
 	}
 
-	public void setUser(UserDAO user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

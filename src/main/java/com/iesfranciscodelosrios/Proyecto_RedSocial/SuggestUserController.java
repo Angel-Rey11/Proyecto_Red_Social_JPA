@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-public class SuggestUserController implements Initializable {
+public class SuggestUserController extends DataService implements Initializable {
 	private List<UserDAO> users;
 	@FXML
 	private GridPane postGrid;
@@ -57,9 +58,8 @@ public class SuggestUserController implements Initializable {
 	 * Metodo para traerte de la base de datos usuarios como sugerencia para seguir
 	 * @return Lista de usuarios
 	 */
-	private List<UserDAO> users() {
-		List<UserDAO> ud = u.getRandomUsers();
-		
+	private List<User> users() {
+		List<User> ud = uDAO.getRandomUsers();
 		return ud;
 	}
 	@Override

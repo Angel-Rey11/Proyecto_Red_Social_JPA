@@ -18,7 +18,6 @@ public class Like {
 	private int id;
 	
 	public Like() {
-		
 	}
 	
 	public Like(int id) {

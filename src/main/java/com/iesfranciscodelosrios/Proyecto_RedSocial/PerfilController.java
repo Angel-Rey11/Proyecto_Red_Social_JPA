@@ -11,6 +11,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Dialog;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-public class PerfilController implements Initializable{
+public class PerfilController extends DataService implements Initializable{
 	@FXML
 	private TextArea bio;
 	@FXML
@@ -71,7 +72,7 @@ public class PerfilController implements Initializable{
 			bio.setEditable(false);
 			if (DataService.userLogeado.getBiografia().equals("")) {
 				DataService.userLogeado.setBiografia(text);
-				DataService.userLogeado.update();
+				uDAO.update(userLogeado);
 				Loggers.LogsInfo("BIOGRAFÍA CAMBIADA");
 			} else {
 				Dialog.showError("ERROR", "BIOGRAFÍA EXISTENTE", "Campo completado");
@@ -95,9 +96,9 @@ public class PerfilController implements Initializable{
 			bio.setEditable(false);
 		}
 		
-		nFollower.setText(String.valueOf(DataService.userLogeado.getAllFollower().size()));
-		nFollowing.setText(String.valueOf(DataService.userLogeado.getAllFollowing().size()));
-		List<PostDAO> listPost = PostDAO.getPostsByUser(DataService.userLogeado.getId());
+		nFollower.setText(String.valueOf(userLogeado.getAllFollower().size()));
+		nFollowing.setText(String.valueOf(userLogeado.getAllFollowing().size()));
+		List<Post> listPost = Post.getPostsByUser(userLogeado.getId());
 		nPost.setText(String.valueOf(listPost.size()));
 		
 		posts = new ArrayList<>(posts());
@@ -125,7 +126,7 @@ public class PerfilController implements Initializable{
 		}
 	}
 	private List<PostDAO> posts() {
-		List<PostDAO> ls = PostDAO.getPostsByUser(DataService.userLogeado.getId());
+		List<Post> ls = pDAO.getPostsByUser(userLogeado.getId());
 		return ls;
 	}
 }

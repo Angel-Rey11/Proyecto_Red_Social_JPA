@@ -12,6 +12,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Dialog;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.CommentDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
@@ -33,7 +34,7 @@ import javafx.util.Duration;
  * @author Francisco Berral, Antonio Jesús Luque, Francisco Prados, Ángel Rey  
  *
  */
-public class CommentViewController implements Initializable {
+public class CommentViewController extends DataService implements Initializable {
 	@FXML
 	private Label name;
 	
@@ -49,10 +50,7 @@ public class CommentViewController implements Initializable {
 	@FXML
 	private TextArea text;
 	
-	private List<CommentDAO> comment;
-	
-	CommentDAO cDAO = new CommentDAO();
-	PostDAO pDAO = new PostDAO();
+	private List<Comment> comment;
 	
 	/**
 	 * Método para cambiar al FXML de 'Main'
@@ -100,7 +98,7 @@ public class CommentViewController implements Initializable {
 		Loggers.LogsInfo("CREANDO NUEVO COMENTARIO");
 	}
 	
-	public void paintComment(List<CommentDAO> comments) {
+	public void paintComment(List<Comment> comments) {
 		int columns = 0;
 		int row = 1;
 		commentGrid.getChildren().clear();
@@ -133,10 +131,9 @@ public class CommentViewController implements Initializable {
 		if (!text.getText().equals("")) {
 			String message = text.getText();
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			User user = DataService.userLogeado;
-			Post post = DataService.p;
-			CommentDAO c = new CommentDAO(-1, message, timestamp, user, post);
-			c.create();
+			User user = userLogeado;
+			Post post = p;
+			Comment c = new Comment(-1, message, timestamp, user, post);
 			comment.add(0,c);
 			paintComment(comment);
 			a1.setVisible(false);
@@ -156,7 +153,7 @@ public class CommentViewController implements Initializable {
 		int columns = 0;
 		int row = 1;
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), ev -> {
-			List<CommentDAO> ls = cDAO.getAllCommentsByIdPost(DataService.p.getId());
+			List<Comment> ls = cDAO.getAllCommentsByIdPost(p.getId());
 			if(comment.size()!=ls.size()) {
 				//actualizar list
 				comment = new ArrayList<>(ls);
@@ -187,17 +184,16 @@ public class CommentViewController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		name.setText(DataService.p.getUser().getNickname());
-		post.setText(DataService.p.getText());
+		name.setText(p.getUser().getNickname());
+		post.setText(p.getText());
 	}
 	
 	/**
 	 * Método para obtener una lista de comentarios de un post en concreto
 	 * @return Lista de comentarios
 	 */
-	private List<CommentDAO> comments() {
-		List<CommentDAO> list = cDAO.getAllCommentsByIdPost(DataService.p.getId());
-		
+	private List<Comment> comments() {
+		List<Comment> list = cDAO.getAllCommentsByIdPost(p.getId());
 		return list;
 	}
 }

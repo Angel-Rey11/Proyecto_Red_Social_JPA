@@ -3,7 +3,6 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,6 +12,8 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.CommentDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.LikeDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Like;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 
 import javafx.animation.Animation;
@@ -25,10 +26,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class PostController implements Initializable {
-	private PostDAO post;
-	private LikeDAO like;
-	private CommentDAO comment;
+public class PostController extends DataService implements Initializable {
+	private Post post;
+	private Like like;
+	private Comment comment;
 	@FXML
 	private Label name;
 	@FXML
@@ -55,8 +56,8 @@ public class PostController implements Initializable {
 	 * Metodo para dar me gusta a un post se ejecuta al pulsar el boton
 	 */
 	private void mg() {
-		like = new LikeDAO(-1,DataService.userLogeado,post.find(this.post.getId()));
-		if(like.create()){
+		like = new Like(-1,DataService.userLogeado,pDAO.find(this.post.getId()));
+		if(lDAO.create(like)) {
 			mg.setDisable(true);
 			dmg.setDisable(false);
 			img1.setVisible(false);
@@ -70,8 +71,8 @@ public class PostController implements Initializable {
 	 * Metodo para quitar un like de un post se ejecuta al pulsar el boton
 	 */
 	private void dmg() {
-		like = new LikeDAO(-1,DataService.userLogeado,this.post);
-		if(like.delete()){
+		like = new Like(-1,userLogeado,this.post);
+		if(lDAO.delete(like)){
 			mg.setDisable(false);
 			dmg.setDisable(true);
 			img1.setVisible(true);
@@ -84,7 +85,7 @@ public class PostController implements Initializable {
 	 * Setea los datos del post que has seleccionado en el menu principal
 	 * @param post
 	 */
-	public void setData(PostDAO post) {
+	public void setData(Post post) {
 		name.setText(post.getUser().getNickname());
 		post2.setText(post.getText());
 		String s = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(post.getCreationDate());
@@ -119,14 +120,14 @@ public class PostController implements Initializable {
 	 * Metodo que Muestra el boton de like o dislike dependiendo de si el usuario ha dado like o no
 	 */
 	public void initializePrivado(){
-		like = new LikeDAO();
-		comment= new CommentDAO();
+		like = new Like();
+		comment= new Comment();
 		boolean encontrado= false;
 		List<LikeDAO> likes = this.like.getAllLikesbyPost();
 		nLikes.setText(like.countLikes(this.post.getId())+"");
-		nComments.setText(comment.getCommentsCount(this.post.getId())+"");
+		nComments.setText(cDAO.getCommentsCount(this.post.getId())+"");
 		for (LikeDAO likeDAO : likes) {
-			if(likeDAO.getUser().getId()==DataService.userLogeado.getId()){
+			if(lDAO.getUser().getId()==userLogeado.getId()){
 				encontrado=true;
 			}
 		}
@@ -149,7 +150,7 @@ public class PostController implements Initializable {
 	 */
 	private void deletePost() {
 		if(DataService.userLogeado.getId()==this.post.getUser().getId()) {
-			post.delete();
+			pDAO.delete(this.post);
 		} else {
 			Dialog.showError("ERROR", "ERROR AL ELIMINAR", "NO PUEDES ELIMINAR ESTE POST");
 			Loggers.LogsSevere("ERROR");

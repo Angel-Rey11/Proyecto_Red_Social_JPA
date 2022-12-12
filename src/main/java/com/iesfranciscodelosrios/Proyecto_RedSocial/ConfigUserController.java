@@ -22,7 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class ConfigUserController implements Initializable {
+public class ConfigUserController extends DataService implements Initializable {
 	
 	@FXML
 	private AnchorPane editPerfil;
@@ -71,9 +71,9 @@ public class ConfigUserController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		nameUser.setText(DataService.userLogeado.getName());
-		biography.setText(DataService.userLogeado.getBiografia());
-		nickname.setText(DataService.userLogeado.getNickname());
+		nameUser.setText(userLogeado.getName());
+		biography.setText(userLogeado.getBiografia());
+		nickname.setText(userLogeado.getNickname());
 	}
 	
 	/**
@@ -91,8 +91,8 @@ public class ConfigUserController implements Initializable {
 		
 		if (DataService.userLogeado != null) {
 			if (!nameUser.getText().isEmpty() && !nickname.getText().isEmpty()) {
-				DataService.userLogeado = new UserDAO(DataService.userLogeado.getId(), nick, name , DataService.userLogeado.getPassword(), bio);
-				DataService.userLogeado.update();
+				userLogeado = new User(userLogeado.getId(), nick, name ,userLogeado.getPassword(), bio);
+				uDAO.update(userLogeado);
 				Dialog.showConfirm("Message", "CAMBIOS REALIZADOS CON ÉXITO", "EL USUARIO HA SIDO MODIFICADO CORRECTAMENTE");
 				Loggers.LogsInfo("USUARIO MODIFICADO");
 			}else {
@@ -168,8 +168,8 @@ public class ConfigUserController implements Initializable {
 			if (pass.contentEquals(passN)) {
 				System.out.println(newPass);
 				System.out.println(DataService.userLogeado.getPassword());
-				UserDAO u = new UserDAO(DataService.userLogeado.getId(), DataService.userLogeado.getName(), DataService.userLogeado.getNickname(), newPass, DataService.userLogeado.getBiografia());
-				u.update();
+				User u = new User(userLogeado.getId(),userLogeado.getName(),userLogeado.getNickname(), newPass,userLogeado.getBiografia());
+				uDAO.update(u);
 				Dialog.showConfirm("OPERACIÓN EXITOSA", "CAMBIOS REALIZADOS CON ÉXITO", "LA CONTRASEÑA HA SIDO MODIFICADA CORRECTAMENTE");
 				App.setRoot("MenuPrincipal");
 				Loggers.LogsInfo("CONTRASEÑA MODIFICADA");
@@ -216,7 +216,7 @@ public class ConfigUserController implements Initializable {
 	 */
 	@FXML
 	private void switchToLogin() throws IOException {
-		DataService.userLogeado = null;
+		userLogeado = null;
 		App.setRoot("Login");
 	}
 }

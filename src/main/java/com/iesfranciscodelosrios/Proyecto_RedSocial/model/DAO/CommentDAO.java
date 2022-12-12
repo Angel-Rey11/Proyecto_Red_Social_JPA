@@ -74,11 +74,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean create() {
-		if(con.insert(this)){
-			return true;
-		}else{
-			return false;
-		}
+		return con.insert(this);
 	}
 
 	/**
@@ -87,11 +83,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean delete() {
-		if(con.delete(this)){
-			return true;
-		}else{
-			return false;
-		}
+		return con.delete(this);
 	}
 
 	/**
@@ -100,11 +92,7 @@ public class CommentDAO extends Comment implements ICommentDAO {
 	 */
 	@Override
 	public boolean update() {
-		if (con.update(this)){
-			return true;
-		}else{
-			return false;
-		}
+		return con.update(this);
 	}
 
 	/**

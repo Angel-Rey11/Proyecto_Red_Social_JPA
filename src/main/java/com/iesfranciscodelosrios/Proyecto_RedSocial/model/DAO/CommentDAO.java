@@ -7,55 +7,73 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.ICommentDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
 /**
  * Clase CommentDAO que hereda de Comment e implementa ICommentDAO
  * @author Francisco Berral, Antonio Jesús Luque, Francisco Prados, Ángel Rey  
  *
  */
-public class CommentDAO implements ICommentDAO {
-	private UserDAO uDAO;
-	private PostDAO pDAO;
-	private Connection con;
-	
-	private final static String INSERT = "INSERT INTO Comments (text, date, id_user, id_post) VALUES (?, ?, ?, ?)";
-	private final static String DELETE = "DELETE FROM Comments WHERE id = ?";
-	private final static String UPDATE = "UPDATE Comments SET text = ?, date = ?, id_user = ?, id_post = ? WHERE id = ?";
-	private final static String FIND = "SELECT id, text, date, id_user, id_post FROM Comments WHERE id = ?";
-	private final static String GETALLBYPOST = "SELECT id, text, date, id_user FROM Comments WHERE id_post = ? ORDER BY date DESC";
-	private final static String GETCOUNT = "SELECT COUNT(*) FROM Comments WHERE id_post = ?";
+public class CommentDAO {
 
+	private static EntityManager manager;
+	
 	/**
 	 * Método para añadir un comentario
 	 * @return Si el comentario ha sido añadido
 	 */
-	@Override
-	public boolean create() {
-		return con.insert(this);
+	public boolean create(Comment c) {
+		boolean added = false;
+		
+		manager = Connection.getConnect().createEntityManager();
+		manager.getTransaction().begin();
+		manager.persist(c);
+		added = true;
+		manager.getTransaction().commit();
+		manager.close();
+		
+		return added;
 	}
 
 	/**
 	 * Método para borrar un comentario
 	 * @return Si el comentario ha sido borrado
 	 */
-	@Override
-	public boolean delete() {
-		return con.delete(this);
+	public boolean delete(Comment c) {
+		boolean removed = false;
+		
+		manager = Connection.getConnect().createEntityManager();
+		manager.getTransaction().begin();
+		manager.remove(c);
+		removed = true;
+		manager.getTransaction().commit();
+		manager.close();
+		
+		return removed;
 	}
 
 	/**
 	 * Método para modificar un comentario
 	 * @return Si el comentario ha sido modificado
 	 */
-	@Override
-	public boolean update() {
-		return con.update(this);
+	public boolean update(Comment c) {
+		boolean updated = false;
+		
+		manager = Connection.getConnect().createEntityManager();
+		manager.getTransaction().begin();
+		c.setId(c.getId());
+		c.setText(c.getText());
+		c.setDate(c.getDate());
+		manager.merge(c);
+		updated = true;
+		manager.getTransaction().commit();
+		manager.close();
+		
+		return updated;
 	}
 
 	/**
@@ -63,9 +81,13 @@ public class CommentDAO implements ICommentDAO {
 	 * @param id ID del comentario
 	 * @return Comentario encontrado
 	 */
-	@Override
-	public CommentDAO find(int id) {
-		CommentDAO c = (CommentDAO) con.find(id,this.getClass());
+	public Comment find(int id) {
+		Comment c = null;
+		
+		manager = Connection.getConnect().createEntityManager();
+		c = manager.find(Comment.class, id);
+		manager.close();
+		
 		return c;
 	}
 	
@@ -74,11 +96,22 @@ public class CommentDAO implements ICommentDAO {
 	 * @param id ID del post
 	 * @return Lista de comentarios del post
 	 */
-	@Override
-	public List<CommentDAO> getAllCommentsByIdPost(int id) {
-		return con.getList(GETALLBYPOST);
+	public List<Comment> getAllCommentsByIdPost(Post p) {
+		List<Comment> list = new ArrayList<Comment>();
+		
+		manager = Connection.getConnect().createEntityManager();
+		list = manager.createQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = " + String.valueOf(p.getId()) + " ORDER BY date DESC").getResultList();
+		manager.close();
+		
+		return list;
 	}
-	public int getCommentsCount(int id_post) {
-		return 0;
+	public int getCommentsCount(Post p) {
+		int count = 0;
+		
+		manager = Connection.getConnect().createEntityManager();
+		count = manager.createQuery("SELECT COUNT(*) FROM Comments WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
+		manager.close();
+		
+		return count;
 	}
 }

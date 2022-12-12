@@ -78,7 +78,7 @@ public class UserDAO {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result = false;
     	User encontrado = null;
-    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = ? AND password = ?").getSingleResult();
+    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = "+u.getNickname()+" AND password ="+u.getPassword()).getSingleResult();
     	if(encontrado != null) {
     		result = true;
     	}
@@ -115,6 +115,18 @@ public class UserDAO {
     public User find(int id) {
     	manager = Connection.getConnect().createEntityManager();
         User aux = manager.find(User.class, id);
+        manager.close();
+        return aux;
+    }
+    
+    /**
+     * Busca a un usuario en la base de datos por el nickname
+     * @param nickname del usuario
+     * @return El usuario encontrado
+     */
+    public User find(String nickname) {
+    	manager = Connection.getConnect().createEntityManager();
+        User aux = manager.find(User.class, nickname);
         manager.close();
         return aux;
     }

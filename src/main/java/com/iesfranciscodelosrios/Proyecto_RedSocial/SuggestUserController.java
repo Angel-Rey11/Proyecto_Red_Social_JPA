@@ -18,10 +18,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class SuggestUserController extends DataService implements Initializable {
-	private List<UserDAO> users;
+	private List<User> users;
 	@FXML
 	private GridPane postGrid;
-	private UserDAO u = new UserDAO();
+	private User u = new User();
 	
 	@FXML
 	/**

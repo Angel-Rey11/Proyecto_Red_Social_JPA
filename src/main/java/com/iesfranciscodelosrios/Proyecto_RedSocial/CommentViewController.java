@@ -153,7 +153,7 @@ public class CommentViewController extends DataService implements Initializable 
 		int columns = 0;
 		int row = 1;
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), ev -> {
-			List<Comment> ls = cDAO.getAllCommentsByIdPost(p.getId());
+			List<Comment> ls = cDAO.getAllCommentsByIdPost(p);
 			if(comment.size()!=ls.size()) {
 				//actualizar list
 				comment = new ArrayList<>(ls);
@@ -193,7 +193,7 @@ public class CommentViewController extends DataService implements Initializable 
 	 * @return Lista de comentarios
 	 */
 	private List<Comment> comments() {
-		List<Comment> list = cDAO.getAllCommentsByIdPost(p.getId());
+		List<Comment> list = cDAO.getAllCommentsByIdPost(p);
 		return list;
 	}
 }

@@ -34,7 +34,7 @@ public class PerfilController extends DataService implements Initializable{
 	private Label nFollowing;
 	@FXML 
 	private Label nPost;
-	private List<PostDAO> posts;
+	private List<Post> posts;
 	
 	@FXML
 	/**
@@ -96,9 +96,9 @@ public class PerfilController extends DataService implements Initializable{
 			bio.setEditable(false);
 		}
 		
-		nFollower.setText(String.valueOf(userLogeado.getAllFollower().size()));
-		nFollowing.setText(String.valueOf(userLogeado.getAllFollowing().size()));
-		List<Post> listPost = Post.getPostsByUser(userLogeado.getId());
+		nFollower.setText(String.valueOf(uDAO.getAllFollower(userLogeado).size()));
+		nFollowing.setText(String.valueOf(uDAO.getAllFollowing(userLogeado).size()));
+		List<Post> listPost = pDAO.getPostsByUser();
 		nPost.setText(String.valueOf(listPost.size()));
 		
 		posts = new ArrayList<>(posts());
@@ -125,8 +125,8 @@ public class PerfilController extends DataService implements Initializable{
 				e.printStackTrace();
 		}
 	}
-	private List<PostDAO> posts() {
-		List<Post> ls = pDAO.getPostsByUser(userLogeado.getId());
+	private List<Post> posts() {
+		List<Post> ls = pDAO.getPostsByUser();
 		return ls;
 	}
 }

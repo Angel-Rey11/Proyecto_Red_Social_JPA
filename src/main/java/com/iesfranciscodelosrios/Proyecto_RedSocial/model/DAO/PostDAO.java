@@ -14,7 +14,6 @@ public class PostDAO {
 	private final static String FINDALLBYFOLLOWER = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+") GROUP BY p.id Order by p.creation_date desc";
 	private final static String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(DataService.userLogeado.getId())+" GROUP BY creation_date DESC";
 	//FIN DE LAS CONSULTAS
-	
 	private static EntityManager manager;
 	
 	/**

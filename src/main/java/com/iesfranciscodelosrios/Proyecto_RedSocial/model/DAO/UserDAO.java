@@ -74,11 +74,11 @@ public class UserDAO {
      * @param password contraseña
      * @return true si se ha logueado correctamente
      */
-    public boolean login(User u) {
+    public boolean login(String nickname, String password) {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result = false;
     	User encontrado = null;
-    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = "+u.getNickname()+" AND password ="+u.getPassword()).getSingleResult();
+    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = "+nickname+" AND password ="+password).getSingleResult();
     	if(encontrado != null) {
     		result = true;
     	}

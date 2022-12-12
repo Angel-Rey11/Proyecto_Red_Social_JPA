@@ -123,11 +123,11 @@ public class PostController extends DataService implements Initializable {
 		like = new Like();
 		comment= new Comment();
 		boolean encontrado= false;
-		List<LikeDAO> likes = this.like.getAllLikesbyPost();
-		nLikes.setText(like.countLikes(this.post.getId())+"");
-		nComments.setText(cDAO.getCommentsCount(this.post.getId())+"");
-		for (LikeDAO likeDAO : likes) {
-			if(lDAO.getUser().getId()==userLogeado.getId()){
+		List<Like> likes = lDAO.getAllLikesbyPost(this.post);
+		nLikes.setText(lDAO.countLikes(this.post)+"");
+		nComments.setText(cDAO.getCommentsCount(this.post)+"");
+		for (Like like : likes) {
+			if(like.getUser().getId()==userLogeado.getId()){
 				encontrado=true;
 			}
 		}

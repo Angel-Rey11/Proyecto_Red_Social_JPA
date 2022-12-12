@@ -2,6 +2,7 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "POST")
-public class Post {
+public class Post implements Serializable {
 	
 	@Id
 	@Column(name = "id")

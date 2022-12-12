@@ -1,5 +1,6 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "COMMENT")
-public class Comment {
+public class Comment implements Serializable {
 	@Id
 	@Column(name = "id")
 	private int id;

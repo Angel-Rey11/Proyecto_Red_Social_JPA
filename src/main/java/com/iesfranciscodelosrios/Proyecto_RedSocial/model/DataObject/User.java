@@ -1,7 +1,9 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -112,6 +114,35 @@ public class User {
 	
 	public void setFollowing(List<User> following) {
 		this.following = following;
+	}
+	
+	public boolean addPosts(Post p) {
+		boolean result = false;
+		if(this.posts == null) {
+			this.posts = new ArrayList<>();
+			this.posts.add(p);
+			result = true;
+		} else {
+			this.posts.add(p);
+			result = true;
+		}
+		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(nickname);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(nickname, other.nickname);
 	}
 	
 	@Override

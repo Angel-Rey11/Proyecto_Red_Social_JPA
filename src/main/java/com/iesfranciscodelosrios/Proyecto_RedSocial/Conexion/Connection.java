@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +14,9 @@ public class Connection {
 	private static Connection _newInstance;
 
 	private Connection() {
-        emf = Persistence.createEntityManagerFactory("MySQL");
+        emf = Persistence.createEntityManagerFactory("sql");
         if(emf==null) {
-            System.out.println("NULL");
+            Loggers.LogsSevere("No se puede establecer la conexion");
         }
     }
 	

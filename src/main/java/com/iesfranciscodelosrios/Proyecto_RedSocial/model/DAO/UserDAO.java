@@ -1,35 +1,14 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IUserDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 public class UserDAO {
-
-    private final static String INSERT = "INSERT INTO `user` (`id`, `nickname`, `name`, `password`, `biografia`) VALUES (NULL,?,?,?,'')";
-    private final static String DELETE = "DELETE FROM User WHERE id = ?";
-    private final static String UPDATE = "UPDATE User SET nickname = ?,  name = ?, password = ?, biografia = ? WHERE id = ?";
-    private final static String GETALLFOLLOWER = "SELECT * FROM User WHERE id IN (SELECT id_user_follower FROM Follow WHERE id_user_following = ?)";
-    private final static String GETALLFOLLOWING = "SELECT * FROM User WHERE id IN (SELECT id_user_following FROM Follow WHERE id_user_follower = ?)";
-    private final static String FIND = "SELECT id, nickname, name, password, biografia FROM user WHERE id = ?";
-    private final static String FINDBYNICKNAME = "SELECT id, nickname, name, password, biografia FROM user WHERE nickname = ?";
-    private final static String LOGIN = "SELECT * FROM user WHERE nickname = ? AND password = ?";
-    private final static String MODIFYBIO = "UPDATE `user` SET `biografia` = ? WHERE `user`.`id` = ?";
+	
     private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
 
     private static EntityManager manager;
@@ -95,27 +74,37 @@ public class UserDAO {
      * @param password contraseña
      * @return true si se ha logueado correctamente
      */
-    public boolean login(String nickname, String password) {
+    public boolean login(User u) {
     	manager = Connection.getConnect().createEntityManager();
-       return false;
+    	boolean result = false;
+    	User encontrado = null;
+    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = ? AND password = ?").getSingleResult();
+    	if(encontrado != null) {
+    		result = true;
+    	}
+    	return result;
     }
 
     /**
      * Se trae todos los seguidores de un usuario
      * @return La lista con todos los seguidores
      */
-    public List<UserDAO> getAllFollower() {
+    public List<User> getAllFollower(User u) {
     	manager = Connection.getConnect().createEntityManager();
-    	return con.getList(GETALLFOLLOWER);
+    	List<User> allFollowers = new ArrayList<User>();
+    	allFollowers = manager.createQuery("SELECT * FROM User WHERE id IN (SELECT id_user_follower FROM Follow WHERE id_user_following = "+u.getId()+")").getResultList();
+    	return allFollowers;
     }
 
     /**
      * Se trae todos los usuarios que sigue un usuario
      * @return La lista con todos los usuarios que sigue
      */
-    public List<UserDAO> getAllFollowing() {
+    public List<User> getAllFollowing(User u) {
     	manager = Connection.getConnect().createEntityManager();
-    	return con.getList(GETALLFOLLOWING);
+    	List<User> allFollowing = new ArrayList<User>();
+    	allFollowing = manager.createQuery("SELECT * FROM User WHERE id IN (SELECT id_user_following FROM Follow WHERE id_user_follower = "+u.getId()+")").getResultList();
+    	return allFollowing;
     }
     
     /**
@@ -134,14 +123,10 @@ public class UserDAO {
      * Funcion que trae una lista con usuarios random para mostrar en la pagina de sugerencias
      * @return La lista con los usuarios random
      */
-    public List<UserDAO> getRandomUsers(){
+    public List<User> getRandomUsers(){
     	manager = Connection.getConnect().createEntityManager();
-    	emf = Persistence.createEntityManagerFactory("sql");
-		manager = emf.createEntityManager();
-        manager.getTransaction().begin();
-		List<UserDAO> randomsUsers = manager.createQuery(RANDOMUSER).getResultList();
-        manager.getTransaction().commit();
-		manager.close();
-		return randomsUsers;
+    	List<User> userRandoms = new ArrayList<User>();
+    	userRandoms = manager.createQuery(RANDOMUSER).getResultList();
+    	return userRandoms;
     }
 }

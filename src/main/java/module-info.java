@@ -8,7 +8,8 @@ module com.iesfranciscodelosrios.Proyecto_RedSocial {
     requires org.apache.commons.codec;
 	requires java.persistence;
 
-    opens com.iesfranciscodelosrios.Proyecto_RedSocial to javafx.fxml,org.hibernate.orm.core;
-    opens com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
+    opens com.iesfranciscodelosrios.Proyecto_RedSocial to javafx.fxml;
+    opens com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion to java.xml.bind;
+    exports com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion;
     exports com.iesfranciscodelosrios.Proyecto_RedSocial;
 }

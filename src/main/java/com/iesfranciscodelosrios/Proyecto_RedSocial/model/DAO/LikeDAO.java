@@ -22,7 +22,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
  * @author Francisco Berral, Antonio Jesús Luque, Francisco Prados, Ángel Rey  
  *
  */
-public class LikeDAO extends Like {
+public class LikeDAO {
 	private final static String GETALLLIKES = "SELECT * FROM Likes WHERE id_post = ";
 	private final static String FIND = "SELECT * FROM Likes WHERE id = ?";
 	private final static String COUNTLIKES = "SELECT COUNT(*) FROM likes WHERE id_post=?";
@@ -30,42 +30,6 @@ public class LikeDAO extends Like {
 	private Connection con;
 	public static EntityManager manager;
 	public static EntityManagerFactory emf;
-	
-	/**
-	 * Constructor
-	 */
-	public LikeDAO() {
-		con = new Connection();
-	}
-	
-	/**
-	 * Constructor
-	 * @param id ID del like
-	 * @param user Usuario del like
-	 * @param post Post del like
-	 */
-	public LikeDAO(int id, User user, Post post) {
-		super(id);
-	}
-	
-	/**
-	 * Constructor
-	 * @param l Like
-	 */
-	public LikeDAO(Like l) {
-		this(l.getId(), l.getUser(), l.getPost());
-	}
-	
-	/**
-	 * Constructor
-	 * @param id ID del like
-	 */
-	/*
-	public LikeDAO(int id) {
-		this.find(id);
-	}
-	*/
-
 	/**
 	 * Método para añadir un like
 	 * @return Si el like ha sido añadido

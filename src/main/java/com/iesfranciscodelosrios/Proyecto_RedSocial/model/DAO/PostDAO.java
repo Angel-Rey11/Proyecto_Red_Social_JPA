@@ -8,47 +8,42 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IPostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
-public class PostDAO extends Post implements IPostDAO {
-	private Connection con;
+public class PostDAO {
 	
 	//CONSULTAS DE MariaDB
 	private final static String INSERT = "INSERT INTO Post (id,creation_date, text, id_user) VALUES (NULL, ?, ?, ?)";
 	private final static String UPDATE = "UPDATE Post SET creation_date = ?, modification_date = ?, text = ?, id_user = ? WHERE id = ?";
 	private final static String DELETE = "DELETE FROM Post WHERE id = ?";
 	private final static String FIND = "SELECT id, creation_date, text, id_user FROM Post WHERE id = ?";
-	private final static String FINDALLBYFOLLOWER = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id=?) OR (p.id_user=u.id and u.id=?) GROUP BY p.id Order by p.creation_date desc;";
-	private final static String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user=? GROUP BY creation_date DESC";
+	private final static String FINDALLBYFOLLOWER = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(DataService.userLogeado.getId())+") GROUP BY p.id Order by p.creation_date desc";
+	private final static String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(DataService.userLogeado.getId())+" GROUP BY creation_date DESC";
 	//FIN DE LAS CONSULTAS
 	
-	//Constructores
-	public PostDAO() {
-		con = new Connection<PostDAO>();
-	}
-	public PostDAO(int id, Timestamp creationDate, String text, User user) { super(id, creationDate,text, user); }
-	public PostDAO(Post p) {
-		super(p.getId(), p.getCreationDate(), p.getText(), p.getUser());
-	}
-	public PostDAO(int id) {
-		this.find(id);
-	}
+	private static EntityManager manager;
 	
 	/**
 	 * Este método nos sirve para insertar todos los campos en la tabla Post.
 	 * @return true si se añade los post, false si no se han insertado correctamente.
 	 */
-	@Override
-	public boolean create() {
-		if(con.insert(this)){
-			return true;
-		}else{
-			return false;
+	public boolean create(Post post) {
+		manager = Connection.getConnect().createEntityManager();
+		boolean result = false;
+		if(manager.contains(post)) {
+			manager.getTransaction().begin();
+		    manager.persist(post);
+		    result=true;
+		    manager.getTransaction().commit();
+		    manager.close();
 		}
+		 return result;
 	}
 
 	/**
@@ -56,13 +51,18 @@ public class PostDAO extends Post implements IPostDAO {
 	 * principal.
 	 * @return true si se elimina correctamente todos los post, false si no se ha eliminado.
 	 */
-	@Override
-	public boolean delete() {
-		if(con.delete(this)){
-			return true;
-		}else{
-			return false;
+	public boolean delete(Post post) {
+		manager = Connection.getConnect().createEntityManager();
+		boolean result = false;
+		if(manager.contains(post)) {
+			manager.getTransaction().begin();
+		    manager.remove(post);
+		    result=true;
+		    manager.getTransaction().commit();
+		    manager.close();
 		}
+		 return result;
+		
 	}
 
 	/**
@@ -70,13 +70,18 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @return true si se han actualizado todos los campos de la tabla Post, false
 	 * si no se han actualizado.
 	 */
-	@Override
-	public boolean update() {
-		if (con.update(this)){
-			return true;
-		}else{
-			return false;
+	public boolean update(Post post) {
+		manager = Connection.getConnect().createEntityManager();
+		boolean result = false;
+		if(manager.contains(post)) {
+			manager.getTransaction().begin();
+		    manager.merge(post);
+		    result=true;
+		    manager.getTransaction().commit();
+		    manager.close();
 		}
+		 return result;
+		
 	}
 
 	/**
@@ -86,10 +91,12 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @param id el valor del campo por el que se obtiene. 
 	 * @return el post obtenido o null si no existe.
 	 */
-	@Override
-	public PostDAO find(int id) {
-		PostDAO p = (PostDAO) con.find(id,this.getClass());
-		return p;
+	public Post find(int id) {
+		manager = Connection.getConnect().createEntityManager();
+        Post post = null;
+        post = manager.find(Post.class,id);
+        manager.close();
+        return post;
 	}
 	
 	/**
@@ -97,8 +104,12 @@ public class PostDAO extends Post implements IPostDAO {
 	 * la tabla Post.
 	 * @return el post de la lista obtenida por sus campos.
 	 */
-	public List<PostDAO> findAllByFollower() {
-		return con.getList(FINDALLBYFOLLOWER);
+	public List<Post> findAllByFollower() {
+		List<Post> misPost = new ArrayList<Post>();
+		manager = Connection.getConnect().createEntityManager();
+		misPost = manager.createQuery(FINDALLBYFOLLOWER).getResultList();
+		manager.close();
+		return misPost;
 	}
 	
 	/**
@@ -106,8 +117,12 @@ public class PostDAO extends Post implements IPostDAO {
 	 * @param id el valor del campo por el que se obtiene. 
 	 * @return el post de la lista obtenida por el usuario.
 	 */
-	public List<PostDAO> getPostsByUser(){
-		return con.getList(FINDALLBYUSER);
+	public List<Post> getPostsByUser() {
+		List<Post> misPost = new ArrayList<Post>();
+		manager = Connection.getConnect().createEntityManager();
+		misPost = manager.createQuery(FINDALLBYUSER).getResultList();
+		manager.close();
+		return misPost;
 	}
 
 }

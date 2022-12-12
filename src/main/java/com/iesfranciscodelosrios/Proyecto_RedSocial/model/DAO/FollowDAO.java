@@ -13,7 +13,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Interfaces.IFollowDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
-public class FollowDAO extends Follow {
+public class FollowDAO {
 
 	// CONSULTAS DE MariaDB
 	private final static String INSERT = "INSERT INTO Follow (id_user_follower, id_user_following) VALUES (?, ?)";
@@ -25,25 +25,6 @@ public class FollowDAO extends Follow {
 	private Connection con;
 	public static EntityManager manager;
 	public static EntityManagerFactory emf;
-
-	// Constructores
-	public FollowDAO() {
-		con = new Connection();
-	}
-
-	public FollowDAO(int id, User follower, User following) {
-		super(id, follower, following);
-	}
-
-	public FollowDAO(Follow f) {
-		super(f.getId(), f.getFollower(), f.getFollowing());
-	}
-
-	/*
-	public FollowDAO(int id) {
-		this.find(id);
-	}
-	*/
 
 	/**
 	 * Este método nos sirve para insertar en la tabla Follow los seguidores y

@@ -19,7 +19,7 @@ import javax.persistence.Persistence;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class UserDAO extends User{
+public class UserDAO {
 
     private final static String INSERT = "INSERT INTO `user` (`id`, `nickname`, `name`, `password`, `biografia`) VALUES (NULL,?,?,?,'')";
     private final static String DELETE = "DELETE FROM User WHERE id = ?";
@@ -32,57 +32,61 @@ public class UserDAO extends User{
     private final static String MODIFYBIO = "UPDATE `user` SET `biografia` = ? WHERE `user`.`id` = ?";
     private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
 
-    private Connection con;
-    public static EntityManager manager;
-    public static EntityManagerFactory emf;
-    public UserDAO(){
-        con = new Connection<UserDAO>();
-    }
-    public UserDAO(int id, String name, String nickname, String password, String biografia) {
-        super(id, name, nickname, password, biografia);
-    }
-    public UserDAO(User u){
-        this(u.getId(), u.getNickname(), u.getName(), u.getPassword(), u.getBiografia());
-    }
-    /*public UserDAO(int id) {
-        this.find(id);
-    }/*
-
+    private static EntityManager manager;
 
     /**
      * Inserta un usuario en la base de datos
      * @return true si se ha insertado correctamente
      */
-    public boolean insert() {
-    	if(con.insert(this)){
-            return true;
-        }else{
-            return false;
-        }
+    public boolean insert(User user) {
+    	manager = Connection.getConnect().createEntityManager();
+    	boolean result=false;
+    	if(!manager.contains(user)) {
+    		 manager.getTransaction().begin();
+             manager.persist(user);
+             result = true;
+             manager.getTransaction().commit();
+             manager.close();
+    	}
+    	return result;
     }
 
     /**
      * Elimina un usuario de la base de datos
      * @return true si se ha eliminado correctamente
      */
-    public boolean delete() {
-    	if(con.delete(this)){
-            return true;
-        }else{
-            return false;
-        }
+    public boolean delete(User user) {
+    	manager = Connection.getConnect().createEntityManager();
+    	boolean result=false;
+    	if(!manager.contains(user)) {
+    		 manager.getTransaction().begin();
+             manager.remove(user);
+             result = true;
+             manager.getTransaction().commit();
+             manager.close();
+    	}
+    	return result;
     }
 
     /**
      * Actualiza un usuario de la base de datos
      * @return true si se ha actualizado correctamente
      */
-    public boolean update() {
-    	if (con.update(this)){
-            return true;
-        }else{
-            return false;
-        }
+    public boolean update(User user) {
+    	manager = Connection.getConnect().createEntityManager();
+    	boolean result=false;
+    	if(!manager.contains(user)) {
+    		 manager.getTransaction().begin();
+             user.setNickname(user.getNickname());
+             user.setName(user.getName());
+             user.setBiografia(user.getBiografia());
+             user.setPassword(user.getPassword());
+             manager.merge(user);
+             result = true;
+             manager.getTransaction().commit();
+             manager.close();
+    	}
+    	return result;
     }
 
     /**
@@ -92,6 +96,7 @@ public class UserDAO extends User{
      * @return true si se ha logueado correctamente
      */
     public boolean login(String nickname, String password) {
+    	manager = Connection.getConnect().createEntityManager();
        return false;
     }
 
@@ -100,6 +105,7 @@ public class UserDAO extends User{
      * @return La lista con todos los seguidores
      */
     public List<UserDAO> getAllFollower() {
+    	manager = Connection.getConnect().createEntityManager();
     	return con.getList(GETALLFOLLOWER);
     }
 
@@ -108,32 +114,28 @@ public class UserDAO extends User{
      * @return La lista con todos los usuarios que sigue
      */
     public List<UserDAO> getAllFollowing() {
+    	manager = Connection.getConnect().createEntityManager();
     	return con.getList(GETALLFOLLOWING);
     }
+    
     /**
      * Busca a un usuario en la base de datos por su id
      * @param id id del usuario
      * @return El usuario encontrado
      */
-    public UserDAO find(int id) {
-        UserDAO u = (UserDAO) con.find(id,this.getClass());
-        return u;
+    public User find(int id) {
+    	manager = Connection.getConnect().createEntityManager();
+        User aux = manager.find(User.class, id);
+        manager.close();
+        return aux;
     }
-
-    /**
-     * Busca a un usuario en la base de datos por su nickname
-     * @param nickname nickname del usuario
-     * @return El usuario encontrado
-     */
-    /*public UserDAO find(String nickname) {
-        
-    }*/
 
     /**
      * Funcion que trae una lista con usuarios random para mostrar en la pagina de sugerencias
      * @return La lista con los usuarios random
      */
     public List<UserDAO> getRandomUsers(){
+    	manager = Connection.getConnect().createEntityManager();
     	emf = Persistence.createEntityManagerFactory("sql");
 		manager = emf.createEntityManager();
         manager.getTransaction().begin();

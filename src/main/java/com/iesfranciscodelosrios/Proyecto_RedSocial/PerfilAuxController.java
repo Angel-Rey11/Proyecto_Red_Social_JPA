@@ -12,6 +12,8 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.FollowDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +25,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-public class PerfilAuxController implements Initializable{
-	private FollowDAO fDAO;
+public class PerfilAuxController extends DataService implements Initializable{
+	private Follow ofollow;
 	@FXML
 	private Label nickname;
 	@FXML
@@ -41,7 +43,7 @@ public class PerfilAuxController implements Initializable{
 	private Label nFollowing;
 	@FXML 
 	private Label nPost;
-	private List<PostDAO> posts;
+	private List<Post> posts;
 
 	@Override
 	/**
@@ -52,17 +54,15 @@ public class PerfilAuxController implements Initializable{
 		nickname.setText(DataService.pAux.getUser().getNickname());
 		bio.setText(DataService.pAux.getUser().getBiografia());
 		bio.setEditable(false);
-		User pDAO = DataService.pAux.getUser();
-		DataService.uAux = (UserDAO) pDAO;
-		nFollower.setText(String.valueOf(DataService.uAux.getAllFollower().size()));
-		nFollowing.setText(String.valueOf(DataService.uAux.getAllFollowing().size()));
-		List<PostDAO> listPost = PostDAO.getPostsByUser(DataService.uAux.getId());
+		nFollower.setText(String.valueOf(uDAO.getAllFollower(DataService.pAux.getUser()).size()));
+		nFollowing.setText(String.valueOf(uDAO.getAllFollowing(DataService.pAux.getUser()).size()));
+		List<Post> listPost = pDAO.getPostsByUser();
 		nPost.setText(String.valueOf(listPost.size()));
 		unfollow.setVisible(false);
 		follow.setVisible(true);
 		unfollow.setDisable(true);
 		follow.setDisable(false);
-		DataService.userLogeado.getAllFollowing().forEach((u)->{
+		uDAO.getAllFollowing(userLogeado).forEach((u)->{
 			if(u.getId() == DataService.pAux.getUser().getId()) {
 				unfollow.setVisible(true);
 				follow.setVisible(false);
@@ -96,8 +96,8 @@ public class PerfilAuxController implements Initializable{
 		}
 	}
 	
-	private List<PostDAO> posts() {
-		List<PostDAO> ls = PostDAO.getPostsByUser(DataService.pAux.getUser().getId());
+	private List<Post> posts() {
+		List<Post> ls = pDAO.getPostsByUser();
 		return ls;
 	}
 	
@@ -106,8 +106,8 @@ public class PerfilAuxController implements Initializable{
 	 * Metodo que permite seguir a un usuario.
 	 */
 	private void follow() {
-		fDAO = new FollowDAO(-1, DataService.userLogeado, DataService.pAux.getUser());
-		if(fDAO.create()) {
+		ofollow = new Follow(-1, DataService.userLogeado, DataService.pAux.getUser());
+		if(fDAO.create(ofollow)) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -122,8 +122,8 @@ public class PerfilAuxController implements Initializable{
 	 * Metodo que permite dejar de seguir a un usuario.
 	 */
 	private void unfollow() {
-		fDAO = new FollowDAO(-1, DataService.userLogeado, DataService.pAux.getUser());
-		if(fDAO.delete()) {
+		ofollow = new Follow(-1, DataService.userLogeado, DataService.pAux.getUser());
+		if(fDAO.delete(ofollow)) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);

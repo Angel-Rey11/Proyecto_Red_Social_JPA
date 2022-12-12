@@ -54,7 +54,9 @@ public class User implements Serializable {
         this.password = password;
         this.biografia = biografia;
     }
-    public User(){}
+    public User(){
+    	this(-1,"","","","");
+    }
 
     public void setId(int id) {
         this.id = id;

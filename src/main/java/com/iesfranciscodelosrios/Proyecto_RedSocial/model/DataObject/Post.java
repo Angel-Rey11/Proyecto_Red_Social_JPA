@@ -37,7 +37,7 @@ public class Post implements Serializable {
 	protected List<Comment> userComments;
 	
 	public Post() {
-		super();
+		this(-1,null,"",null);
 	}
 
 	public Post(int id, Timestamp creationDate, String text, User user) {

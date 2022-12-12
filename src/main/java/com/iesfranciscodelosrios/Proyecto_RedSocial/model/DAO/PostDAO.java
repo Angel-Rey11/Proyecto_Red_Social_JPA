@@ -94,7 +94,7 @@ public class PostDAO {
 		String sql = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(user.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(user.getId())+") GROUP BY p.id Order by p.creation_date desc";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		misPost = manager.createQuery(sql).getResultList();
+		misPost = manager.createNativeQuery(sql).getResultList();
 		manager.close();
 		return misPost;
 	}
@@ -108,7 +108,7 @@ public class PostDAO {
 		String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(user.getId())+" GROUP BY creation_date DESC";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		misPost = manager.createQuery(FINDALLBYUSER).getResultList();
+		misPost = manager.createNativeQuery(FINDALLBYUSER).getResultList();
 		manager.close();
 		return misPost;
 	}

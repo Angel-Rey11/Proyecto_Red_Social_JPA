@@ -1,9 +1,8 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -78,6 +77,54 @@ public class Post implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Like> getUserLikes() {
+		return userLikes;
+	}
+
+	public void setUserLikes(List<Like> userLikes) {
+		if (userLikes == null) return;
+		for (Like l: userLikes) {
+			this.addUserLikes(l);
+		};
+	}
+	
+	public boolean addUserLikes(Like l) {
+		boolean result = false;
+		if (this.userLikes == null) {
+			this.userLikes = new ArrayList<>();
+			this.userLikes.add(l);
+			result = true;
+		} else {
+			this.userLikes.add(l);
+			result = true;
+		}
+		return result;
+	}
+
+	public List<Comment> getUserComments() {
+		return userComments;
+	}
+
+	public void setUserComments(List<Comment> userComments) {
+		if (userComments == null) return;
+		for (Comment c: userComments) {
+			this.addUserComments(c);
+		};
+	}
+	
+	public boolean addUserComments(Comment c) {
+		boolean result = false;
+		if (this.userComments == null) {
+			this.userComments = new ArrayList<>();
+			this.userComments.add(c);
+			result = true;
+		} else {
+			this.userComments.add(c);
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

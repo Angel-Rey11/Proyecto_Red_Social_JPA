@@ -101,23 +101,10 @@ public class User implements Serializable {
 	}
 	
 	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-	
-	public List<User> getFollowers() {
-		return followers;
-	}
-	
-	public void setFollowers(List<User> followers) {
-		this.followers = followers;
-	}
-	
-	public List<User> getFollowing() {
-		return following;
-	}
-	
-	public void setFollowing(List<User> following) {
-		this.following = following;
+		if (posts == null) return;
+		for (Post p: posts) {
+			this.addPosts(p);
+		};
 	}
 	
 	public boolean addPosts(Post p) {
@@ -128,6 +115,102 @@ public class User implements Serializable {
 			result = true;
 		} else {
 			this.posts.add(p);
+			result = true;
+		}
+		return result;
+	}
+	
+	public List<User> getFollowers() {
+		return followers;
+	}
+	
+	public void setFollowers(List<User> followers) {
+		if (followers == null) return;
+		for (User u: followers) {
+			this.addFollowers(u);
+		};
+	}
+	
+	public boolean addFollowers(User u) {
+		boolean result = false;
+		if(this.followers == null) {
+			this.followers = new ArrayList<>();
+			this.followers.add(u);
+			result = true;
+		} else {
+			this.followers.add(u);
+			result = true;
+		}
+		return result;
+	}
+	
+	public List<User> getFollowing() {
+		return following;
+	}
+	
+	public void setFollowing(List<User> following) {
+		if (following == null) return;
+		for (User u: following) {
+			this.addFollowing(u);
+		};
+	}
+	
+	public boolean addFollowing(User u) {
+		boolean result = false;
+		if(this.following == null) {
+			this.following = new ArrayList<>();
+			this.following.add(u);
+			result = true;
+		} else {
+			this.following.add(u);
+			result = true;
+		}
+		return result;
+	}
+	
+	public List<Like> getPostsLikes() {
+		return postsLikes;
+	}
+	
+	public void setPostsLikes(List<Like> postsLikes) {
+		if (postsLikes == null) return;
+		for (Like l: postsLikes) {
+			this.addPostLikes(l);
+		};
+	}
+	
+	public boolean addPostLikes(Like l) {
+		boolean result = false;
+		if(this.postsLikes == null) {
+			this.postsLikes = new ArrayList<>();
+			this.postsLikes.add(l);
+			result = true;
+		} else {
+			this.postsLikes.add(l);
+			result = true;
+		}
+		return result;
+	}
+	
+	public List<Comment> getPostComments() {
+		return postComments;
+	}
+	
+	public void setPostComments(List<Comment> postComments) {
+		if (postComments == null) return;
+		for (Comment c: postComments) {
+			this.addPostsComments(c);
+		};
+	}
+	
+	public boolean addPostsComments(Comment c) {
+		boolean result = false;
+		if(this.postComments == null) {
+			this.postComments = new ArrayList<>();
+			this.postComments.add(c);
+			result = true;
+		} else {
+			this.postComments.add(c);
 			result = true;
 		}
 		return result;

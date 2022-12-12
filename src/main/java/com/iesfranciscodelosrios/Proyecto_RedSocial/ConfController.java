@@ -6,7 +6,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 
 import javafx.fxml.FXML;
 
-public class ConfController {
+public class ConfController extends DataService {
 	/**
 	 * Metodo para cambiar a la vista de editar perfil
 	 * @throws IOException
@@ -49,7 +49,7 @@ public class ConfController {
 	 */
 	@FXML
 	private void switchToLogin() throws IOException {
-		DataService.userLogeado = null;
+		userLogeado = null;
 		App.setRoot("Login");
 	}
 }

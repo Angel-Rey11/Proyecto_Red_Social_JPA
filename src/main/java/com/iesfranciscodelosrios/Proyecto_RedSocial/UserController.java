@@ -5,19 +5,17 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.FollowDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class UserController {
+public class UserController extends DataService {
 	@FXML
 	private Label name;
-	private UserDAO u;
-	private FollowDAO fDAO;
+	private User u;
+	private Follow ofollow;
 	@FXML
 	private Button follow;
 	@FXML
@@ -27,7 +25,7 @@ public class UserController {
 	 * Metodo para setear el nombre del usuario en la vista
 	 * @param user
 	 */
-	public void setData(UserDAO user) {
+	public void setData(User user) {
 		name.setText(user.getNickname());
 		this.u = user;
 	}
@@ -38,8 +36,8 @@ public class UserController {
 	 * Una vez sigas al usuario se deshabilitara el boton de seguir y se habilitara el de dejar de seguir
 	 */
 	private void follow() {
-		fDAO = new FollowDAO(-1, DataService.userLogeado, this.u);
-		if(fDAO.create()) {
+		ofollow = new Follow(-1, DataService.userLogeado, this.u);
+		if(fDAO.create(ofollow)) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -54,8 +52,8 @@ public class UserController {
 	 * Una vez dejes de seguir al usuario se deshabilitara el boton de dejar de seguir y se habilitara el de seguir
 	 */
 	private void unfollow() {
-		fDAO = new FollowDAO(-1, DataService.userLogeado, this.u);
-		if(fDAO.delete()) {
+		ofollow = new Follow(-1, DataService.userLogeado, this.u);
+		if(fDAO.delete(ofollow)) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);
@@ -73,7 +71,7 @@ public class UserController {
 		follow.setVisible(true);
 		unfollow.setDisable(true);
 		follow.setDisable(false);
-		DataService.userLogeado.getAllFollowing().forEach((user)->{
+		uDAO.getAllFollowing(userLogeado).forEach((user)->{
 			if(user.getId() == this.u.getId()) {
 				unfollow.setVisible(true);
 				follow.setVisible(false);

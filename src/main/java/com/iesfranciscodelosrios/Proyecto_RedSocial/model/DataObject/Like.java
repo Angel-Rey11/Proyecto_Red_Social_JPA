@@ -22,7 +22,6 @@ public class Like implements Serializable {
 	private int id;
 	
 	public Like() {
-		
 	}
 	
 	public Like(int id) {

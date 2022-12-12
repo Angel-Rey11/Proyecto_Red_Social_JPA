@@ -15,6 +15,8 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,17 +36,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-public class MenuPrincipalController implements Initializable {
-	private PostDAO postDAO;
+public class MenuPrincipalController extends DataService implements Initializable {
+	private Post oPost;
 	@FXML
 	private GridPane postGrid;
-	private List<PostDAO> posts;
-	private List<UserDAO> users;
+	private List<Post> posts;
+	private List<User> users;
 	@FXML
 	private DialogPane vis;
 	@FXML
 	private TextArea post;
-	private UserDAO u = new UserDAO();
+	private User u = new User();
 	@FXML
 	private Label sug;
 	@FXML
@@ -55,7 +57,7 @@ public class MenuPrincipalController implements Initializable {
 	private Label size;
 
 	public MenuPrincipalController() {
-		postDAO = new PostDAO();
+		oPost = new Post();
 	}
 	
 	
@@ -73,7 +75,7 @@ public class MenuPrincipalController implements Initializable {
 		int columns = 0;
 		int row = 1;
 			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(7), ev -> {
-				List<PostDAO> ls = postDAO.findAllByFollower();
+				List<Post> ls = pDAO.findAllByFollower();
 				if(posts.size()!=ls.size()) {
 					posts = new ArrayList<>(ls);
 					paintPost(posts);
@@ -82,7 +84,7 @@ public class MenuPrincipalController implements Initializable {
 		    timeline.setCycleCount(Animation.INDEFINITE);
 		    timeline.play();
 
-		if(DataService.userLogeado.getAllFollowing().size()<=0) {
+		if(uDAO.getAllFollowing(userLogeado).size()<=0) {
 			sug.setVisible(false);
 			img.setVisible(false);
 			b.setDisable(true);
@@ -131,7 +133,7 @@ public class MenuPrincipalController implements Initializable {
 			}
 		}
 	}
-	public void paintPost(List<PostDAO> posts){
+	public void paintPost(List<Post> posts){
 		int columns = 0;
 		int row = 1;
 		postGrid.getChildren().clear();
@@ -161,9 +163,8 @@ public class MenuPrincipalController implements Initializable {
 	 * Metodo para obtener un array con todos los posts para luego pintarlos
 	 * @return el array con la consulta generada
 	 */
-	private List<PostDAO> posts() {
-		List<PostDAO> ls = postDAO.findAllByFollower();
-		
+	private List<Post> posts() {
+		List<Post> ls = pDAO.findAllByFollower();
 		return ls;
 	}
 	
@@ -172,8 +173,8 @@ public class MenuPrincipalController implements Initializable {
 	 * obtener usuarios aleatorios de la base de datos para las sugerencias
 	 * @return el array con la consulta generada
 	 */
-	private List<UserDAO> users() {
-		List<UserDAO> ud = u.getRandomUsers();
+	private List<User> users() {
+		List<User> ud = uDAO.getRandomUsers();
 		
 		return ud;
 	}
@@ -213,9 +214,9 @@ public class MenuPrincipalController implements Initializable {
 	@FXML
 	private void addPostConfirm() {
 		Timestamp date = new Timestamp(System.currentTimeMillis());
-		PostDAO pd = new PostDAO(-1,date,post.getText(),DataService.userLogeado);
+		Post pd = new Post(-1,date,post.getText(),userLogeado);
 		if (post.getText().length() < 300) {
-			pd.create();
+			pDAO.create(pd);
 			post.clear();
 			posts.add(0,pd);
 			paintPost(posts);

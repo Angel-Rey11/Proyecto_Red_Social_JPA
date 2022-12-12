@@ -3,6 +3,7 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Utils;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
@@ -14,11 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
-
-	private UserDAO uDAO;
+public class LoginController extends DataService implements Initializable {
 	private Utils u;
-
 	@FXML
 	private AnchorPane loginPane;
 	@FXML
@@ -108,15 +106,15 @@ public class LoginController implements Initializable {
 	 */
 	@FXML
 	private void eventSignUpConfirm() throws IOException {
-		UserDAO userDAO;
+		User user;
 		if (!confirnmPasswordField.getText().isEmpty()) {
 			String pass = DigestUtils.sha256Hex(confirnmPasswordField.getText());
 			String nickname = nicknameFieldsignup.getText();
 			String name = nameField.getText();
 			if (confirnmPasswordField.getText().equals(passwordFieldsignup.getText())) {
-				userDAO = new UserDAO(-1, nickname, name, pass, "");
-				DataService.userLogeado = userDAO;
-				if (DataService.userLogeado.insert()) {
+				user = new User(-1, nickname, name, pass, "");
+				this.userLogeado = user;
+				if (uDAO.insert(user)) {
 					u.mostrarInfo("Registro", "Registro correcto", "Bienvenido " + nickname);
 					loginPane.setVisible(true);
 					signupPane.setVisible(false);

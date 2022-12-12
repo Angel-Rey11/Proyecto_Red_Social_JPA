@@ -13,6 +13,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.CommentDAO;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,8 +31,8 @@ import javafx.util.Duration;
  * @author Francisco Berral, Antonio Jesús Luque, Francisco Prados, Ángel Rey  
  *
  */
-public class CommentController {
-	private CommentDAO cd;
+public class CommentController extends DataService {
+	private Comment cd;
 	@FXML
 	private Label name;
 	@FXML
@@ -55,7 +56,7 @@ public class CommentController {
 	 * Método para setear los datos de un comentario
 	 * @param c Comentario del que se obtiene la información
 	 */
-	public void setData(CommentDAO c) {
+	public void setData(Comment c) {
 		name.setText(c.getUser().getNickname()); 
 		comment2.setText(c.getText());
 		this.cd = c;
@@ -90,8 +91,8 @@ public class CommentController {
 	 */
 	@FXML
 	private void deleteComment() {
-		if(DataService.p.getUser().getId()==DataService.userLogeado.getId() || DataService.userLogeado.getId()==this.cd.getUser().getId()) {
-			cd.delete();
+		if(p.getUser().getId()==userLogeado.getId() || userLogeado.getId()==this.cd.getUser().getId()) {
+			cDAO.delete(cd);
 			Dialog.showConfirm("OPERACIÓN EXITOSA", "COMENTARIO ELIMINADO", "El comentario se ha eliminado correctamente");
 			Loggers.LogsInfo("COMENTARIO ELIMINADO");
 		} else {
@@ -119,8 +120,8 @@ public class CommentController {
 		if (DataService.userLogeado.getId() == this.cd.getUser().getId()) {
 			if (!ta.getText().equals("")) {
 				Timestamp date = new Timestamp(System.currentTimeMillis());
-				CommentDAO newComment = new CommentDAO(this.cd.getId(),ta.getText(),date,DataService.userLogeado,DataService.p);
-				newComment.update();
+				Comment newComment = new Comment(this.cd.getId(),ta.getText(),date,userLogeado,p);
+				cDAO.update(newComment);
 				an.setVisible(false);
 			} else {
 				Dialog.showError("ERROR", "MOFICIACIÓN ERRÓNEA", "El campo texto debe ser rellenado");

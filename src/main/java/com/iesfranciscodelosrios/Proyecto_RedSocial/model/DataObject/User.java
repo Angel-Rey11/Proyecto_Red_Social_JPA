@@ -1,6 +1,7 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name = "id")
     private int id;

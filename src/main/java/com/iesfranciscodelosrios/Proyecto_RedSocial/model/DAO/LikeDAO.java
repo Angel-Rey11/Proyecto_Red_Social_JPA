@@ -60,7 +60,7 @@ public class LikeDAO {
 		List<Like> list = new ArrayList<Like>();
 		
 		manager = Connection.getConnect().createEntityManager();
-		list = manager.createQuery("SELECT * FROM Likes WHERE id_post = " + p.getId()).getResultList();
+		list = manager.createNativeQuery("SELECT * FROM Likes WHERE id_post = " + p.getId()).getResultList();
 		manager.close();
 		
 		return list;
@@ -85,7 +85,7 @@ public class LikeDAO {
 		int count = 0;
 		
 		manager = Connection.getConnect().createEntityManager();
-		count = manager.createQuery("SELECT COUNT(*) FROM likes WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
+		count = manager.createNativeQuery("SELECT COUNT(*) FROM likes WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
 		manager.close();
 		
 		return count;

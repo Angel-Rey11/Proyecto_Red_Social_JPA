@@ -1,6 +1,7 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -22,6 +23,7 @@ public class Like implements Serializable {
 	private int id;
 	
 	public Like() {
+		this(-1,null,null);
 	}
 	
 	public Like(int id) {
@@ -67,6 +69,23 @@ public class Like implements Serializable {
 	
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Like other = (Like) obj;
+		return id == other.id;
 	}
 
 	@Override

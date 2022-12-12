@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -37,7 +38,7 @@ public class Comment implements Serializable {
 	private CommentId idC;
 	
 	public Comment() {
-		
+		this(-1,"",null,null,null);
 	}
 	
 	public Comment(int id, String text, Timestamp date, User user, Post post) {
@@ -97,6 +98,23 @@ public class Comment implements Serializable {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		return id == other.id;
 	}
 
 	@Override

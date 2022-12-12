@@ -11,7 +11,7 @@ public class Follow {
 	protected User following;
 
 	public Follow() {
-		super();
+		this(-1,null,null);
 	}
 	
 	public Follow(int id, User follower, User following) {

@@ -7,6 +7,7 @@ module com.iesfranciscodelosrios.Proyecto_RedSocial {
 	requires javafx.graphics;
     requires org.apache.commons.codec;
 	requires java.persistence;
+	requires org.hibernate.orm.core;
 
     opens com.iesfranciscodelosrios.Proyecto_RedSocial to javafx.fxml;
     opens com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion to java.xml.bind;

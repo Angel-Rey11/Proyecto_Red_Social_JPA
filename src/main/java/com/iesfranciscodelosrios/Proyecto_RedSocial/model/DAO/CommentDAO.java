@@ -100,7 +100,7 @@ public class CommentDAO {
 		List<Comment> list = new ArrayList<Comment>();
 		
 		manager = Connection.getConnect().createEntityManager();
-		list = manager.createQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = " + String.valueOf(p.getId()) + " ORDER BY date DESC").getResultList();
+		list = manager.createNativeQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = " + String.valueOf(p.getId()) + " ORDER BY date DESC").getResultList();
 		manager.close();
 		
 		return list;
@@ -109,7 +109,7 @@ public class CommentDAO {
 		int count = 0;
 		
 		manager = Connection.getConnect().createEntityManager();
-		count = manager.createQuery("SELECT COUNT(*) FROM Comments WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
+		count = manager.createNativeQuery("SELECT COUNT(*) FROM Comments WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
 		manager.close();
 		
 		return count;

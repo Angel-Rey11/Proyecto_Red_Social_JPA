@@ -11,17 +11,19 @@ public class Like implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	private LikeId idL;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	@ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
 	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)
     @MapsId("postId")
 	private Post post;
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@EmbeddedId
+	private LikeId idL;
+	
 	
 	public Like() {
 		this(-1,null,null);

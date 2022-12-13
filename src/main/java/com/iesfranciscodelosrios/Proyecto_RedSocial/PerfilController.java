@@ -112,7 +112,6 @@ public class PerfilController extends DataService implements Initializable{
 				AnchorPane an = fxmlLoader.load();
 				PostController post = fxmlLoader.getController();
 				post.setData(posts.get(i));
-				
 				if(columns == 1) {
 					columns = 0;
 					++row;

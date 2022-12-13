@@ -9,11 +9,7 @@ import java.util.ResourceBundle;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Dialog;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.CommentDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.LikeDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Like;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 
 import javafx.animation.Animation;
@@ -55,8 +51,7 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo para dar me gusta a un post se ejecuta al pulsar el boton
 	 */
 	private void mg() {
-		like = new Like(-1,DataService.userLogeado,pDAO.find(this.post.getId()));
-		if(lDAO.create(like)) {
+		if(post.addUserLikes(userLogeado)) {
 			mg.setDisable(true);
 			dmg.setDisable(false);
 			img1.setVisible(false);
@@ -70,8 +65,7 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo para quitar un like de un post se ejecuta al pulsar el boton
 	 */
 	private void dmg() {
-		like = new Like(-1,userLogeado,this.post);
-		if(lDAO.delete(like)){
+		if(post.addUserLikes(userLogeado)) {
 			mg.setDisable(false);
 			dmg.setDisable(true);
 			img1.setVisible(true);
@@ -119,16 +113,11 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo que Muestra el boton de like o dislike dependiendo de si el usuario ha dado like o no
 	 */
 	public void initializePrivado(){
-		like = new Like();
-		comment= new Comment();
 		boolean encontrado= false;
-		List<Like> likes = lDAO.getAllLikesbyPost(this.post);
-		nLikes.setText(lDAO.countLikes(this.post)+"");
-		nComments.setText(cDAO.getCommentsCount(this.post)+"");
-		for (Like like : likes) {
-			if(like.getUser().getId()==userLogeado.getId()){
+		nLikes.setText(post.getUserLikes().size()+"");
+		nComments.setText(post.getUserComments().size()+"");
+			if(post.getUserLikes().contains(userLogeado)) {
 				encontrado=true;
-			}
 		}
 		if(encontrado){
 			mg.setDisable(true);

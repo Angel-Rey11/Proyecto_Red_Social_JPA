@@ -109,7 +109,6 @@ public class CommentViewController extends DataService implements Initializable 
 				AnchorPane a = f.load();
 				CommentController c = f.getController();
 				c.setData(comment.get(i));
-				
 				if (columns == 1) {
 					columns = 0;
 					++row;
@@ -131,9 +130,10 @@ public class CommentViewController extends DataService implements Initializable 
 		if (!text.getText().equals("")) {
 			String message = text.getText();
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			User user = userLogeado;
-			Post post = p;
-			Comment c = new Comment(-1, message, timestamp, user, post);
+			Comment c = new Comment(-1, message, timestamp, userLogeado, p);
+			cDAO.create(c);
+			p.getUserComments().add(c);
+			userLogeado.getPostComments().add(c);
 			comment.add(0,c);
 			paintComment(comment);
 			a1.setVisible(false);

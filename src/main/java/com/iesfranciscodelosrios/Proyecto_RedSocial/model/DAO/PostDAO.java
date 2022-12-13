@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
@@ -109,10 +107,11 @@ public class PostDAO {
 	 * @return el post de la lista obtenida por el usuario.
 	 */
 	public List<Post> getPostsByUser(User user) {
-		String FINDALLBYUSER="SELECT id,text,creation_date,id_user from Post where id_user="+String.valueOf(user.getId())+" GROUP BY creation_date DESC";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		misPost = manager.createNativeQuery(FINDALLBYUSER).getResultList();
+		Query q = manager.createNativeQuery("SELECT id,text,creation_date,id_user from Post where id_user=? GROUP BY creation_date DESC");
+		q.setParameter(1, user.getId());
+		misPost = q.getResultList();
 		manager.close();
 		return misPost;
 	}

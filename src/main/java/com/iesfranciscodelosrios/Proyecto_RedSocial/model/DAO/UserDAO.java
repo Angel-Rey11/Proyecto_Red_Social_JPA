@@ -84,9 +84,12 @@ public class UserDAO {
     public boolean login(String nickname, String password) {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result = false;
-    	int encontrado = -1;
-    	encontrado = manager.createNativeQuery("SELECT nickname FROM user WHERE nickname = "+nickname).getFirstResult();
-    	if(encontrado != -1) {
+    	User encontrado = null;
+    	Query q = manager.createNativeQuery("SELECT * FROM user WHERE nickname = ? AND password = ?",User.class);
+    	q.setParameter(1, nickname);
+    	q.setParameter(2, password);
+    	encontrado = (User) q.getSingleResult();
+    	if(encontrado != null) {
     		result = true;
     	}
     	return result;
@@ -99,7 +102,9 @@ public class UserDAO {
     public List<User> getAllFollower(User u) {
     	manager = Connection.getConnect().createEntityManager();
     	List<User> allFollowers = new ArrayList<>();
-    	allFollowers = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_follower FROM Follow WHERE id_user_following = "+u.getId()+")").getResultList();
+    	Query q = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_follower FROM Follow WHERE id_user_following = ?)",User.class);
+    	q.setParameter(1, u.getId());
+    	allFollowers = q.getResultList();
     	return allFollowers;
     }
 
@@ -109,9 +114,11 @@ public class UserDAO {
      */
     public List<User> getAllFollowing(User u) {
     	manager = Connection.getConnect().createEntityManager();
-    	List<User> allFollowing = new ArrayList<User>();
-    	allFollowing = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_following FROM Follow WHERE id_user_follower = "+u.getId()+")").getResultList();
-    	return allFollowing;
+    	List<User> allFollowers = new ArrayList<>();
+    	Query q = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_following FROM Follow WHERE id_user_follower = ?)",User.class);
+    	q.setParameter(1, u.getId());
+    	allFollowers = q.getResultList();
+    	return allFollowers;
     }
     
     /**

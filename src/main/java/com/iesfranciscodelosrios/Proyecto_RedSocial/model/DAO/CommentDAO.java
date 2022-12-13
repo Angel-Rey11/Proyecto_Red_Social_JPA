@@ -1,13 +1,10 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
@@ -98,18 +95,21 @@ public class CommentDAO {
 	 */
 	public List<Comment> getAllCommentsByIdPost(Post p) {
 		List<Comment> list = new ArrayList<Comment>();
-		
 		manager = Connection.getConnect().createEntityManager();
-		list = manager.createNativeQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = " + String.valueOf(p.getId()) + " ORDER BY date DESC").getResultList();
+		Query q = manager.createNativeQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = ? ORDER BY date DESC",Comment.class);
+		q.setParameter(1, p.getId());
+		list = q.getResultList();
 		manager.close();
 		
 		return list;
 	}
+	
 	public int getCommentsCount(Post p) {
 		int count = 0;
-		
 		manager = Connection.getConnect().createEntityManager();
-		count = manager.createNativeQuery("SELECT COUNT(*) FROM Comments WHERE id_post = " + String.valueOf(p.getId())).getMaxResults();
+		Query q = manager.createNativeQuery("SELECT COUNT(*) FROM Comments WHERE id_post = ?",Comment.class);
+		q.setParameter(1, p.getId());
+		count = q.getResultList().size();
 		manager.close();
 		
 		return count;

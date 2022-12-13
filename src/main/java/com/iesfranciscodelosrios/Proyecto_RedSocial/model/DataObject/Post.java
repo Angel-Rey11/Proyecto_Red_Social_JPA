@@ -24,18 +24,22 @@ public class Post implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
 	protected User user;
+	@ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "likes",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id")}
+    )
+	protected List<User> userLikes;
 	@OneToMany(
 	mappedBy = "post",
 	cascade = CascadeType.ALL,
 	orphanRemoval = true
 	)
-	protected List<Like> userLikes;
-	@OneToMany(
-	mappedBy = "post",
-	cascade = CascadeType.ALL,
-	orphanRemoval = true
-	)
-	protected List<Comment> userComments;
+	protected List<Comment> comments;
 	
 	public Post() {
 		this(-1,null,"",null);
@@ -80,18 +84,18 @@ public class Post implements Serializable {
 		this.user = user;
 	}
 
-	public List<Like> getUserLikes() {
+	public List<User> getUserLikes() {
 		return userLikes;
 	}
 
-	public void setUserLikes(List<Like> userLikes) {
+	public void setUserLikes(List<User> userLikes) {
 		if (userLikes == null) return;
-		for (Like l: userLikes) {
+		for (User l: userLikes) {
 			this.addUserLikes(l);
 		};
 	}
 	
-	public boolean addUserLikes(Like l) {
+	public boolean addUserLikes(User l) {
 		boolean result = false;
 		if (this.userLikes == null) {
 			this.userLikes = new ArrayList<>();
@@ -105,7 +109,7 @@ public class Post implements Serializable {
 	}
 
 	public List<Comment> getUserComments() {
-		return userComments;
+		return comments;
 	}
 
 	public void setUserComments(List<Comment> userComments) {
@@ -117,12 +121,12 @@ public class Post implements Serializable {
 	
 	public boolean addUserComments(Comment c) {
 		boolean result = false;
-		if (this.userComments == null) {
-			this.userComments = new ArrayList<>();
-			this.userComments.add(c);
+		if (this.comments == null) {
+			this.comments = new ArrayList<>();
+			this.comments.add(c);
 			result = true;
 		} else {
-			this.userComments.add(c);
+			this.comments.add(c);
 			result = true;
 		}
 		return result;

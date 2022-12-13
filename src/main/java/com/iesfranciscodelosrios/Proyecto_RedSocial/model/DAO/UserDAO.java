@@ -41,11 +41,11 @@ public class UserDAO {
     public boolean delete(User user) {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result=false;
-    	if(!manager.contains(user)) {
+    	if(manager.contains(user)) {
     		 manager.getTransaction().begin();
              manager.remove(user);
-             result = true;
              manager.getTransaction().commit();
+             result = true;
              manager.close();
     	}
     	return result;
@@ -58,7 +58,7 @@ public class UserDAO {
     public boolean update(User user) {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result=false;
-    	if(!manager.contains(user)) {
+    	if(manager.contains(user)) {
     		 manager.getTransaction().begin();
              user.setNickname(user.getNickname());
              user.setName(user.getName());

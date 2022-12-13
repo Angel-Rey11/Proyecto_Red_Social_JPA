@@ -2,6 +2,7 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -41,12 +42,13 @@ public class PostDAO {
 	 */
 	public boolean delete(Post post) {
 		manager = Connection.getConnect().createEntityManager();
+		post = manager.find(Post.class, post.getId());
 		boolean result = false;
 		if(manager.contains(post)) {
 			manager.getTransaction().begin();
 		    manager.remove(post);
-		    result=true;
 		    manager.getTransaction().commit();
+		    result=true;
 		    manager.close();
 		}
 		 return result;
@@ -93,14 +95,19 @@ public class PostDAO {
 	 * @return el post de la lista obtenida por sus campos.
 	 */
 	public List<Post> findAllByFollower(User user) {
-		List<Post> misPosts = new ArrayList<Post>();
+		List<Post> allPosts = new ArrayList<>();
 		manager = Connection.getConnect().createEntityManager();
-		Query q = manager.createNativeQuery("SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id=?) OR (p.id_user=u.id and u.id=?) GROUP BY p.id Order by p.creation_date desc",Post.class);
-		q.setParameter(1, user.getId());
-		q.setParameter(2, user.getId());
-		misPosts = q.getResultList();
+		user = manager.find(User.class,user.getId());
+		user.getPosts().size();
+		allPosts = user.getPosts();
+		for (User u : user.getFollowing()) {
+				for (Post p : u.getPosts()) {
+					allPosts.add(p);
+				}
+		}
+		allPosts.sort(Comparator.comparing(Post::getCreationDate).reversed());
 		manager.close();
-		return misPosts;
+		return allPosts;
 	}
 	
 	/**

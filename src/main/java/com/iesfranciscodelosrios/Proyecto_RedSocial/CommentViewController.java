@@ -132,8 +132,6 @@ public class CommentViewController extends DataService implements Initializable 
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			Comment c = new Comment(-1, message, timestamp, userLogeado, p);
 			cDAO.create(c);
-			p.getComments().add(c);
-			userLogeado.getPostComments().add(c);
 			comment.add(0,c);
 			paintComment(comment);
 			a1.setVisible(false);

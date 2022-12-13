@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
@@ -22,11 +24,11 @@ public class PostDAO {
 	public boolean create(Post post) {
 		manager = Connection.getConnect().createEntityManager();
 		boolean result = false;
-		if(manager.contains(post)) {
+		if(!manager.contains(post)) {
 			manager.getTransaction().begin();
 		    manager.persist(post);
-		    result=true;
 		    manager.getTransaction().commit();
+			result = true;
 		    manager.close();
 		}
 		 return result;
@@ -97,6 +99,8 @@ public class PostDAO {
 		q.setParameter(1, user.getId());
 		q.setParameter(2, user.getId());
 		misPost = q.getResultList();
+		System.out.println();
+		System.out.println(misPost);
 		manager.close();
 		return misPost;
 	}
@@ -109,7 +113,7 @@ public class PostDAO {
 	public List<Post> getPostsByUser(User user) {
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		Query q = manager.createNativeQuery("SELECT id,text,creation_date,id_user from Post where id_user=? GROUP BY creation_date DESC");
+		Query q = manager.createNativeQuery("SELECT id,text,creation_date,id_user from Post where id_user=? GROUP BY creation_date DESC",Post.class);
 		q.setParameter(1, user.getId());
 		misPost = q.getResultList();
 		manager.close();

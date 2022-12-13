@@ -119,7 +119,7 @@ public class MenuPrincipalController extends DataService implements Initializabl
 					AnchorPane an = fxmlLoader.load();
 					PostController post = fxmlLoader.getController();
 					post.setData(posts.get(i));
-					post.initializePrivado();
+					//post.initializePrivado();
 					if(columns == 1) {
 						columns = 0;
 						++row;
@@ -145,7 +145,7 @@ public class MenuPrincipalController extends DataService implements Initializabl
 				an = fxmlLoader.load();
 				PostController post = fxmlLoader.getController();
 				post.setData(posts.get(i));
-				post.initializePrivado();
+				//post.initializePrivado();
 				if(columns == 1) {
 					columns = 0;
 					++row;
@@ -217,6 +217,7 @@ public class MenuPrincipalController extends DataService implements Initializabl
 		Post pd = new Post(-1,date,post.getText(),userLogeado);
 		if (post.getText().length() < 300) {
 			pDAO.create(pd);
+			userLogeado.getPosts().add(pd);
 			post.clear();
 			posts.add(0,pd);
 			paintPost(posts);

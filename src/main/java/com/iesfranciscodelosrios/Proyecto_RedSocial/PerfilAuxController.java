@@ -26,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class PerfilAuxController extends DataService implements Initializable{
-	private Follow ofollow;
 	@FXML
 	private Label nickname;
 	@FXML

@@ -94,14 +94,11 @@ public class CommentDAO {
 	 * @return Lista de comentarios del post
 	 */
 	public List<Comment> getAllCommentsByIdPost(Post p) {
-		List<Comment> list = new ArrayList<Comment>();
 		manager = Connection.getConnect().createEntityManager();
-		Query q = manager.createNativeQuery("SELECT id, text, date, id_user FROM Comments WHERE id_post = ? ORDER BY date DESC",Comment.class);
-		q.setParameter(1, p.getId());
-		list = q.getResultList();
+		p = manager.find(Post.class, p.getId());
+		p.getComments().size();
 		manager.close();
-		
-		return list;
+		return p.getComments();
 	}
 	
 	public int getCommentsCount(Post p) {

@@ -117,8 +117,8 @@ public class PostController extends DataService implements Initializable {
 		if(post.getUserLikes()!=null){
 			nLikes.setText(post.getUserLikes().size()+"");
 		}
-		if(post.getUserComments()!=null){
-			nComments.setText(post.getUserComments().size()+"");
+		if(post.getComments()!=null){
+			nComments.setText(post.getComments().size()+"");
 		}
 			if(post.getUserLikes()!=null && post.getUserLikes().contains(userLogeado)) {
 				encontrado=true;

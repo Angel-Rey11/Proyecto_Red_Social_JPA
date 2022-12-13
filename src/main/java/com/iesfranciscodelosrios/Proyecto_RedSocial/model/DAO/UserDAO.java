@@ -13,9 +13,6 @@ import javax.persistence.Query;
 
 public class UserDAO {
 
-	
-    private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
-
     private static EntityManager manager;
     private static EntityManagerFactory emf;
 
@@ -101,11 +98,10 @@ public class UserDAO {
      */
     public List<User> getAllFollower(User u) {
     	manager = Connection.getConnect().createEntityManager();
-    	List<User> allFollowers = new ArrayList<>();
-    	Query q = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_follower FROM Follow WHERE id_user_following = ?)",User.class);
-    	q.setParameter(1, u.getId());
-    	allFollowers = q.getResultList();
-    	return allFollowers;
+    	u = manager.find(User.class, u.getId());
+    	u.getFollowers().size();
+    	manager.close();
+    	return u.getFollowers();
     }
 
     /**
@@ -114,11 +110,10 @@ public class UserDAO {
      */
     public List<User> getAllFollowing(User u) {
     	manager = Connection.getConnect().createEntityManager();
-    	List<User> allFollowers = new ArrayList<>();
-    	Query q = manager.createNativeQuery("SELECT * FROM User WHERE id IN (SELECT id_user_following FROM Follow WHERE id_user_follower = ?)",User.class);
-    	q.setParameter(1, u.getId());
-    	allFollowers = q.getResultList();
-    	return allFollowers;
+    	u = manager.find(User.class, u.getId());
+    	u.getFollowing().size();
+    	manager.close();
+    	return u.getFollowing();
     }
     
     /**

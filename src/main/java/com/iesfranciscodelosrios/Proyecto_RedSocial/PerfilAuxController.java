@@ -8,13 +8,8 @@ import java.util.ResourceBundle;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.FollowDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.PostDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -105,8 +100,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 	 * Metodo que permite seguir a un usuario.
 	 */
 	private void follow() {
-		ofollow = new Follow(-1, DataService.userLogeado, DataService.pAux.getUser());
-		if(fDAO.create(ofollow)) {
+		if(userLogeado.getFollowing().add(pAux.getUser())) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -121,8 +115,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 	 * Metodo que permite dejar de seguir a un usuario.
 	 */
 	private void unfollow() {
-		ofollow = new Follow(-1, DataService.userLogeado, DataService.pAux.getUser());
-		if(fDAO.delete(ofollow)) {
+		if(userLogeado.getFollowing().remove(pAux.getUser())) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);

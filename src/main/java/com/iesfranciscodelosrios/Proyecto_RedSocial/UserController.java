@@ -2,10 +2,8 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial;
 
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.FollowDAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.UserDAO;
 
-import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Follow;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,8 +33,7 @@ public class UserController extends DataService {
 	 * Una vez sigas al usuario se deshabilitara el boton de seguir y se habilitara el de dejar de seguir
 	 */
 	private void follow() {
-		ofollow = new Follow(-1, DataService.userLogeado, this.u);
-		if(fDAO.create(ofollow)) {
+		if(userLogeado.getFollowing().add(u)) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -51,8 +48,7 @@ public class UserController extends DataService {
 	 * Una vez dejes de seguir al usuario se deshabilitara el boton de dejar de seguir y se habilitara el de seguir
 	 */
 	private void unfollow() {
-		ofollow = new Follow(-1, DataService.userLogeado, this.u);
-		if(fDAO.delete(ofollow)) {
+		if(userLogeado.getFollowing().remove(u)) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);

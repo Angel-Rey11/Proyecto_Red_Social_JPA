@@ -15,7 +15,6 @@ public class UserController extends DataService {
 	@FXML
 	private Label name;
 	private User u;
-	private Follow ofollow;
 	@FXML
 	private Button follow;
 	@FXML

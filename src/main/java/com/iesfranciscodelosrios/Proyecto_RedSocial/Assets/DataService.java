@@ -13,6 +13,4 @@ public class DataService {
 	public static PostDAO pDAO = new PostDAO();
 	public static UserDAO uDAO = new UserDAO();
 	public static CommentDAO cDAO = new CommentDAO();
-	public static LikeDAO lDAO = new LikeDAO();
-	public static FollowDAO fDAO = new FollowDAO();
 }

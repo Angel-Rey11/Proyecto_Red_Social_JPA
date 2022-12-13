@@ -28,7 +28,6 @@ import javafx.util.Duration;
 
 public class PostController extends DataService implements Initializable {
 	private Post post;
-	private Like like;
 	private Comment comment;
 	@FXML
 	private Label name;

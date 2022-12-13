@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -31,14 +32,17 @@ public class Comment implements Serializable {
 	private String text;
 	@Column(name = "date")
 	private Timestamp date;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("userId")
+	
+	
+	@ManyToOne()
+    @JoinColumn(name = "user_id")
 	private User user;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("postId")
+	
+	
+	@ManyToOne()
+    @JoinColumn(name = "post_id")
 	private Post post;
-	@EmbeddedId
-	private CommentId idC;
+
 	
 	public Comment() {
 		this(-1,"",null,null,null);
@@ -51,17 +55,9 @@ public class Comment implements Serializable {
 		this.date = date;
 		this.user = user;
 		this.post = post;
-		this.idC = new CommentId(user.getId(),post.getId());
 	}
 	
 
-	public CommentId getIdC() {
-		return idC;
-	}
-
-	public void setIdC(CommentId idC) {
-		this.idC = idC;
-	}
 
 	public int getId() {
 		return id;

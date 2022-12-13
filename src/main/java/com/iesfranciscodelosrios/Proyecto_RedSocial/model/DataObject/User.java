@@ -35,17 +35,9 @@ public class User implements Serializable {
     private List<User> followers;
     @ManyToMany(mappedBy = "followers")
     private List<User> following;
-    @OneToMany(
-    mappedBy = "user",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
-    )
-    private List<Like> postsLikes;
-    @OneToMany(
-    mappedBy = "user",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
-    )
+    @ManyToMany(mappedBy = "userLikes")
+    private List<Post> postsLikes;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> postComments;
 
     public User(int id, String nickname, String name, String password, String biografia) {
@@ -171,18 +163,18 @@ public class User implements Serializable {
 		return result;
 	}
 	
-	public List<Like> getPostsLikes() {
+	public List<Post> getPostsLikes() {
 		return postsLikes;
 	}
 	
-	public void setPostsLikes(List<Like> postsLikes) {
+	public void setPostsLikes(List<Post> postsLikes) {
 		if (postsLikes == null) return;
-		for (Like l: postsLikes) {
+		for (Post l: postsLikes) {
 			this.addPostLikes(l);
 		};
 	}
 	
-	public boolean addPostLikes(Like l) {
+	public boolean addPostLikes(Post l) {
 		boolean result = false;
 		if(this.postsLikes == null) {
 			this.postsLikes = new ArrayList<>();

@@ -9,11 +9,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 public class UserDAO {
 
 	
-    private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN ("+DataService.userLogeado.getId()+") ORDER BY RAND()*(25-10)+10 LIMIT 6";
+    private final static String RANDOMUSER = "SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6";
 
     private static EntityManager manager;
     private static EntityManagerFactory emf;
@@ -83,9 +84,9 @@ public class UserDAO {
     public boolean login(String nickname, String password) {
     	manager = Connection.getConnect().createEntityManager();
     	boolean result = false;
-    	User encontrado = null;
-    	encontrado = (User) manager.createQuery("SELECT * FROM user WHERE nickname = "+nickname+" AND password ="+password).getSingleResult();
-    	if(encontrado != null) {
+    	int encontrado = -1;
+    	encontrado = manager.createNativeQuery("SELECT nickname FROM user WHERE nickname = "+nickname).getFirstResult();
+    	if(encontrado != -1) {
     		result = true;
     	}
     	return result;
@@ -131,8 +132,12 @@ public class UserDAO {
      * @return El usuario encontrado
      */
     public User find(String nickname) {
+    	List<User> misUsers = new ArrayList<User>();
     	manager = Connection.getConnect().createEntityManager();
-        User aux = manager.find(User.class, nickname);
+    	Query q = manager.createNativeQuery("SELECT * FROM user WHERE nickname = ?",User.class);
+    	q.setParameter(1, nickname);
+    	misUsers = q.getResultList();
+    	User aux = misUsers.get(0);
         manager.close();
         return aux;
     }
@@ -142,9 +147,12 @@ public class UserDAO {
      * @return La lista con los usuarios random
      */
     public List<User> getRandomUsers(){
+    	List<User> misUsers = new ArrayList<User>();
     	manager = Connection.getConnect().createEntityManager();
-    	List<User> userRandoms = new ArrayList<User>();
-    	userRandoms = manager.createNativeQuery(RANDOMUSER).getResultList();
-    	return userRandoms;
+    	Query q = manager.createNativeQuery("SELECT * FROM `user` WHERE id NOT IN (?) ORDER BY RAND()*(25-10)+10 LIMIT 6",User.class);
+    	q.setParameter(1, DataService.userLogeado.getId());
+    	misUsers = q.getResultList();
+        manager.close();
+        return misUsers;
     }
 }

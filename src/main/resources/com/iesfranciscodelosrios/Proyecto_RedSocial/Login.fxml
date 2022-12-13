@@ -52,6 +52,7 @@
                   <TextField fx:id="nicknameFieldsignup" layoutX="14.0" layoutY="106.0" prefHeight="25.0" prefWidth="179.0" style="-fx-background-color: B1B2FF; -fx-background-radius: 20px;" />
                   <Separator layoutX="243.0" layoutY="29.0" orientation="VERTICAL" prefHeight="302.0" prefWidth="3.0" rotate="26.6" style="-fx-background-color: B1B2FF;" />
                   <Separator layoutX="181.0" layoutY="313.0" prefHeight="6.0" prefWidth="136.0" style="-fx-background-color: B1B2FF;" />
+                  <TextField fx:id="nameField" layoutX="14.0" layoutY="178.0" prefHeight="25.0" prefWidth="179.0" style="-fx-background-color: B1B2FF; -fx-background-radius: 20px;" />
                   <ImageView fitHeight="59.0" fitWidth="52.0" layoutX="239.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/signup.png" />
@@ -61,7 +62,6 @@
                   <Button layoutX="9.0" layoutY="313.0" mnemonicParsing="false" onAction="#eventSignup" prefHeight="33.0" prefWidth="93.0" style="-fx-background-color: D2DAFF; -fx-background-radius: 20px;" text="REGISTRARSE" />
                   <Label layoutX="129.0" layoutY="336.0" prefHeight="20.0" prefWidth="93.0" style="-fx-font-size: 14px;" text="Volver al Login" />
                   <Label layoutX="14.0" layoutY="147.0" style="-fx-font-size: 16px;" text="NOMBRE" />
-                  <TextField fx:id="nameField" layoutX="14.0" layoutY="178.0" prefHeight="25.0" prefWidth="179.0" style="-fx-background-color: B1B2FF; -fx-background-radius: 20px;" />
                   <Button layoutX="126.0" layoutY="333.0" mnemonicParsing="false" onAction="#returnBack" opacity="0.0" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: B1B2FF;" />
                </children>
             </AnchorPane>

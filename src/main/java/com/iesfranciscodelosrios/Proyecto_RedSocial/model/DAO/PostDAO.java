@@ -4,6 +4,8 @@ package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
@@ -91,10 +93,12 @@ public class PostDAO {
 	 * @return el post de la lista obtenida por sus campos.
 	 */
 	public List<Post> findAllByFollower(User user) {
-		String sql = "SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id="+String.valueOf(user.getId())+")) OR (p.id_user=u.id and u.id="+String.valueOf(user.getId())+") GROUP BY p.id Order by p.creation_date desc";
 		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		misPost = manager.createNativeQuery(sql).getResultList();
+		Query q = manager.createNativeQuery("SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id=?) OR (p.id_user=u.id and u.id=?) GROUP BY p.id Order by p.creation_date desc",Post.class);
+		q.setParameter(1, user.getId());
+		q.setParameter(2, user.getId());
+		misPost = q.getResultList();
 		manager.close();
 		return misPost;
 	}

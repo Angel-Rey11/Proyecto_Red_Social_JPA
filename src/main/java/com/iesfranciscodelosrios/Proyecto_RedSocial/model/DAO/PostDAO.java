@@ -93,16 +93,14 @@ public class PostDAO {
 	 * @return el post de la lista obtenida por sus campos.
 	 */
 	public List<Post> findAllByFollower(User user) {
-		List<Post> misPost = new ArrayList<Post>();
+		List<Post> misPosts = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
 		Query q = manager.createNativeQuery("SELECT p.* FROM Post as p, user as u, follow as f WHERE (p.id_user=f.id_user_following and f.id_user_follower=u.id and u.id=?) OR (p.id_user=u.id and u.id=?) GROUP BY p.id Order by p.creation_date desc",Post.class);
 		q.setParameter(1, user.getId());
 		q.setParameter(2, user.getId());
-		misPost = q.getResultList();
-		System.out.println();
-		System.out.println(misPost);
+		misPosts = q.getResultList();
 		manager.close();
-		return misPost;
+		return misPosts;
 	}
 	
 	/**
@@ -111,13 +109,11 @@ public class PostDAO {
 	 * @return el post de la lista obtenida por el usuario.
 	 */
 	public List<Post> getPostsByUser(User user) {
-		List<Post> misPost = new ArrayList<Post>();
 		manager = Connection.getConnect().createEntityManager();
-		Query q = manager.createNativeQuery("SELECT id,text,creation_date,id_user from Post where id_user=? GROUP BY creation_date DESC",Post.class);
-		q.setParameter(1, user.getId());
-		misPost = q.getResultList();
+		user = manager.find(User.class,user.getId());
+		user.getPosts().size();
 		manager.close();
-		return misPost;
+		return user.getPosts();
 	}
 
 }

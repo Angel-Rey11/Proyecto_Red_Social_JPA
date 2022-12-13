@@ -108,11 +108,11 @@ public class Post implements Serializable {
 		return result;
 	}
 
-	public List<Comment> getUserComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setUserComments(List<Comment> userComments) {
+	public void setComments(List<Comment> userComments) {
 		if (userComments == null) return;
 		for (Comment c: userComments) {
 			this.addUserComments(c);

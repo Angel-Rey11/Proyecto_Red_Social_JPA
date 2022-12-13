@@ -114,15 +114,15 @@ public class PostController extends DataService implements Initializable {
 	 */
 	public void initializePrivado(){
 		boolean encontrado= false;
-		if(post.getUserLikes()!=null){
-			nLikes.setText(post.getUserLikes().size()+"");
-		}
+		//if(post.getUserLikes()!=null){
+			//nLikes.setText(post.getUserLikes().size()+"");
+		//}
 		if(post.getComments()!=null){
-			nComments.setText(post.getComments().size()+"");
+			nComments.setText(cDAO.getCommentsCount(post)+" ");
 		}
-			if(post.getUserLikes()!=null && post.getUserLikes().contains(userLogeado)) {
+			//if(post.getUserLikes()!=null && post.getUserLikes().contains(userLogeado)) {
 				encontrado=true;
-		}
+		//}
 		if(encontrado){
 			mg.setDisable(true);
 			dmg.setDisable(false);
@@ -152,7 +152,7 @@ public class PostController extends DataService implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ev -> {
-			//this.initializePrivado();
+			this.initializePrivado();
 		}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();

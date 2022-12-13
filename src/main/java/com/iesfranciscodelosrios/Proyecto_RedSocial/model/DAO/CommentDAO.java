@@ -1,6 +1,7 @@
 package com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,14 +43,15 @@ public class CommentDAO {
 	 */
 	public boolean delete(Comment c) {
 		boolean removed = false;
-		
 		manager = Connection.getConnect().createEntityManager();
-		manager.getTransaction().begin();
-		manager.remove(c);
-		removed = true;
-		manager.getTransaction().commit();
-		manager.close();
-		
+		c = manager.find(Comment.class, c.getId());
+		if(manager.contains(c)) {
+			manager.getTransaction().begin();
+			manager.remove(c);
+			manager.getTransaction().commit();
+			removed = true;
+			manager.close();
+		}
 		return removed;
 	}
 
@@ -98,17 +100,15 @@ public class CommentDAO {
 		p = manager.find(Post.class, p.getId());
 		p.getComments().size();
 		manager.close();
+		p.getComments().sort(Comparator.comparing(Comment::getDate).reversed());
 		return p.getComments();
 	}
 	
 	public int getCommentsCount(Post p) {
-		int count = 0;
 		manager = Connection.getConnect().createEntityManager();
-		Query q = manager.createNativeQuery("SELECT COUNT(*) FROM Comments WHERE id_post = ?",Comment.class);
-		q.setParameter(1, p.getId());
-		count = q.getResultList().size();
+		p = manager.find(Post.class, p.getId());
+		int count = p.getComments().size();
 		manager.close();
-		
 		return count;
 	}
 }

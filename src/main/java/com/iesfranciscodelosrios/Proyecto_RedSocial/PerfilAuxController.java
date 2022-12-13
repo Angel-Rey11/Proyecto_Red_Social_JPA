@@ -76,7 +76,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 				AnchorPane an = fxmlLoader.load();
 				PostController post = fxmlLoader.getController();
 				post.setData(posts.get(i));
-				post.initializePrivado();
+				//post.initializePrivado();
 				if(columns == 1) {
 					columns = 0;
 					++row;

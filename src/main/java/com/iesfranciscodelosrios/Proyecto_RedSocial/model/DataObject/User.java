@@ -126,17 +126,30 @@ public class User implements Serializable {
 		};
 	}
 	
+	/**
+	 * Metodo para añadir el usuario que seguimos a su lista de seguidores
+	 * @param u usuario logeado
+	 * @return true si todo lo ha hecho bien
+	 */
 	public boolean addFollowers(User u) {
 		boolean result = false;
 		if(this.followers == null) {
 			this.followers = new ArrayList<>();
+		} 
+		
+		if(!this.followers.contains(u))
 			this.followers.add(u);
-			result = true;
-		} else {
-			this.followers.add(u);
-			result = true;
-		}
+		result = true;
+		
 		return result;
+	}
+	
+	/**
+	 * Metodo para eliminar el usuario logeado de la lista de seguidos
+	 * @param u usuario logeado
+	 */
+	public void removeFollowers(User u) {
+		this.followers.remove(u);
 	}
 	
 	public List<User> getFollowing() {
@@ -150,16 +163,40 @@ public class User implements Serializable {
 		};
 	}
 	
+	/**
+	 * Metodo para añadir a la lista de siguiendo del usuario logeado
+	 * @param u usuario que vamos a seguir
+	 * @return true si todo va bien
+	 */
 	public boolean addFollowing(User u) {
 		boolean result = false;
 		if(this.following == null) {
 			this.following = new ArrayList<>();
+		} 
+		
+		if(!this.following.contains(u)) {
+			u.addFollowers(this);
 			this.following.add(u);
-			result = true;
-		} else {
-			this.following.add(u);
-			result = true;
 		}
+		result = true;
+		
+		return result;
+	}
+	
+	/**
+	 * Metodo para eliminar el usuario de la lista de siguiendo del usuario logeado
+	 * @param u usuario que eliminamos
+	 * @return true si todo va bien
+	 */
+	public boolean removeFollowing(User u){
+		boolean result = false;
+		if(this.following != null) {
+			if(this.following.contains(u)) {
+				this.following.remove(u);
+				u.removeFollowers(this);
+			}
+			result = true;
+		} 	
 		return result;
 	}
 	
@@ -215,6 +252,7 @@ public class User implements Serializable {
 	public int hashCode() {
 		return Objects.hash(nickname);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

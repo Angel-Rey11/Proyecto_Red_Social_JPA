@@ -100,7 +100,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 	 * Metodo que permite seguir a un usuario.
 	 */
 	private void follow() {
-		if(userLogeado.getFollowing().add(pAux.getUser())) {
+		if(uDAO.addFollow(userLogeado, pAux.getUser())) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -115,7 +115,7 @@ public class PerfilAuxController extends DataService implements Initializable{
 	 * Metodo que permite dejar de seguir a un usuario.
 	 */
 	private void unfollow() {
-		if(userLogeado.getFollowing().remove(pAux.getUser())) {
+		if(uDAO.removeFollow(userLogeado, pAux.getUser())) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);

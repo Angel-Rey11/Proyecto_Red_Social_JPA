@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.DataService;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Dialog;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.Assets.Loggers;
+import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DAO.DAO;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Comment;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 
@@ -45,13 +46,14 @@ public class PostController extends DataService implements Initializable {
 	private Label nLikes;
 	@FXML
 	private Label nComments;
+	private DAO<Post> DAO = new DAO<Post>();
 
 	@FXML
 	/**
 	 * Metodo para dar me gusta a un post se ejecuta al pulsar el boton
 	 */
 	private void mg() {
-		if(post.addUserLikes(userLogeado)) {
+		if(pDAO.addLike(this.post, userLogeado)) {
 			mg.setDisable(true);
 			dmg.setDisable(false);
 			img1.setVisible(false);
@@ -65,7 +67,7 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo para quitar un like de un post se ejecuta al pulsar el boton
 	 */
 	private void dmg() {
-		if(post.addUserLikes(userLogeado)) {
+		if(pDAO.removeLike(this.post, userLogeado)) {
 			mg.setDisable(false);
 			dmg.setDisable(true);
 			img1.setVisible(true);
@@ -114,15 +116,15 @@ public class PostController extends DataService implements Initializable {
 	 */
 	public void initializePrivado(){
 		boolean encontrado= false;
-		//if(post.getUserLikes()!=null){
-			//nLikes.setText(post.getUserLikes().size()+"");
-		//}
+		if(post.getUserLikes()!=null){
+			nLikes.setText(pDAO.getCountLikes(post)+"");
+		}
 		if(post.getComments()!=null){
 			nComments.setText(cDAO.getCommentsCount(post)+" ");
 		}
-			//if(post.getUserLikes()!=null && post.getUserLikes().contains(userLogeado)) {
+			if(pDAO.validatePost(this.post, userLogeado)) {
 				encontrado=true;
-		//}
+		}
 		if(encontrado){
 			mg.setDisable(true);
 			dmg.setDisable(false);

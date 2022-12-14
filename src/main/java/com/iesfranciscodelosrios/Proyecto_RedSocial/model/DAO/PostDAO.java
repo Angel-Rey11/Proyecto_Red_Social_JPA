@@ -89,13 +89,53 @@ public class PostDAO extends DAO{
 		return user.getPosts();
 	}
 	
-	public boolean addLike(Post post) {
+	public boolean addLike(Post post, User u) {
 		boolean result = false;
+		manager = Connection.getConnect().createEntityManager();
+		post = manager.find(Post.class, post.getId());
+		u = manager.find(User.class, u.getId());
+		manager.getTransaction().begin();
+    	post.getUserLikes().size();
+    	u.getPostsLikes().size();
+    	post.addLikes(u);
+        manager.persist(post);
+        manager.getTransaction().commit();
+        manager.close();
+        result = true;
 		return result;
 	}
 	
-	public boolean removeLike(Post post) {
+	public boolean removeLike(Post post, User u) {
 		boolean result = false;
+		manager = Connection.getConnect().createEntityManager();
+		post = manager.find(Post.class, post.getId());
+		manager.getTransaction().begin();
+    	post.getUserLikes().size();
+    	post.removeLikes(u);
+        manager.persist(post);
+        manager.getTransaction().commit();
+        manager.close();
+        result = true;
+		return result;
+	}
+	
+	public int getCountLikes(Post p) {
+		manager = Connection.getConnect().createEntityManager();
+		p = manager.find(Post.class, p.getId());
+		int count = p.getUserLikes().size();
+		manager.close();
+		return count;
+	}
+	
+	public boolean validatePost(Post p, User u) {
+		boolean result = false;
+		manager = Connection.getConnect().createEntityManager();
+		p = manager.find(Post.class, p.getId());
+		p.getUserLikes().size();
+		if(p.getUserLikes().contains(u)) {
+			result = true;
+		}
+		manager.close();
 		return result;
 	}
 

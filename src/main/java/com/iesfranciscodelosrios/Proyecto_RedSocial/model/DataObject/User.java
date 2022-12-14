@@ -211,16 +211,9 @@ public class User implements Serializable {
 		};
 	}
 	
-	public boolean addPostLikes(Post l) {
+	public boolean addPostLikes(Post p) {
 		boolean result = false;
-		if(this.postsLikes == null) {
-			this.postsLikes = new ArrayList<>();
-			this.postsLikes.add(l);
-			result = true;
-		} else {
-			this.postsLikes.add(l);
-			result = true;
-		}
+		this.postsLikes.add(p);
 		return result;
 	}
 	

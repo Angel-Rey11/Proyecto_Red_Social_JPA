@@ -30,8 +30,8 @@ public class Post implements Serializable {
     })
     @JoinTable(
             name = "likes",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "post_id")}
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
 	protected List<User> userLikes;
 	@OneToMany(
@@ -89,22 +89,35 @@ public class Post implements Serializable {
 	}
 
 	public void setUserLikes(List<User> userLikes) {
-		if (userLikes == null) return;
-		for (User l: userLikes) {
-			this.addUserLikes(l);
-		};
+		//if (userLikes == null) return;
+		//for (User l: userLikes) {
+			//this.addUserLikes(l);
+		//};
 	}
 	
-	public boolean addUserLikes(User l) {
+	public boolean addLikes (User u) {
 		boolean result = false;
-		if (this.userLikes == null) {
+		if(this.userLikes == null) {
 			this.userLikes = new ArrayList<>();
-			this.userLikes.add(l);
-			result = true;
-		} else {
-			this.userLikes.add(l);
-			result = true;
+		} 
+		
+		if(!this.userLikes.contains(u)) {
+			this.userLikes.add(u);
+			u.addPostLikes(this);
 		}
+		result = true;
+		
+		return result;
+	}
+	
+	public boolean removeLikes (User u) {
+		boolean result = false;
+		if(this.userLikes != null) {
+			if(this.userLikes.contains(u)) {
+				this.userLikes.remove(u);
+			}
+			result = true;
+		} 	
 		return result;
 	}
 

@@ -33,7 +33,7 @@ public class UserController extends DataService {
 	 * Una vez sigas al usuario se deshabilitara el boton de seguir y se habilitara el de dejar de seguir
 	 */
 	private void follow() {
-		if(userLogeado.getFollowing().add(u)) {
+		if(uDAO.addFollow(userLogeado, this.u)) {
 			unfollow.setVisible(true);
 			follow.setVisible(false);
 			unfollow.setDisable(false);
@@ -48,7 +48,7 @@ public class UserController extends DataService {
 	 * Una vez dejes de seguir al usuario se deshabilitara el boton de dejar de seguir y se habilitara el de seguir
 	 */
 	private void unfollow() {
-		if(userLogeado.getFollowing().remove(u)) {
+		if(uDAO.removeFollow(userLogeado, this.u)) {
 			unfollow.setVisible(false);
 			follow.setVisible(true);
 			unfollow.setDisable(true);

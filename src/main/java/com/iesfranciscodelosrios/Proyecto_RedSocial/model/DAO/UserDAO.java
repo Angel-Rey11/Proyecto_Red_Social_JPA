@@ -130,13 +130,13 @@ public class UserDAO extends DAO{
     public boolean addFollow(User user_follower, User user_followed) {
     	boolean result = false;
     	manager = Connection.getConnect().createEntityManager();
-    	//nuevo manager para crear modificaciones
-    	User followerManaged = manager.merge(user_follower);
-    	
-    	List<User> misFollows = followerManaged.getFollowing();
+    	user_follower = manager.find(User.class, user_follower.getId());
+    	user_followed = manager.find(User.class, user_followed.getId());
     	manager.getTransaction().begin();
+    	user_follower.getFollowing().size();
+    	user_followed.getFollowers().size();
     	user_follower.addFollowing(user_followed);
-        //manager.persist(u);
+        manager.persist(user_follower);
         manager.getTransaction().commit();
         manager.close();
         result = true;
@@ -149,19 +149,19 @@ public class UserDAO extends DAO{
      * @param aux user que vamos a dejar de seguir
      * @return true si todo lo ha hecho bien
      */
-    public boolean removeFollow(User u, User aux) {
+    public boolean removeFollow(User user_follower, User user_followed) {
     	boolean result = false;
     	manager = Connection.getConnect().createEntityManager();
-    	u = manager.find(User.class, u.getId());
-    	if(manager.contains(u)) {
-    		List<User> misFollows = u.getFollowing();
-        	manager.getTransaction().begin();
-        	misFollows.remove(aux);
-        	u.setFollowing(misFollows);
-            manager.getTransaction().commit();
-            manager.close();
-            result = true;
-    	}
+    	user_follower = manager.find(User.class, user_follower.getId());
+    	user_followed = manager.find(User.class, user_followed.getId());
+    	manager.getTransaction().begin();
+    	user_follower.getFollowing().size();
+    	user_followed.getFollowers().size();
+    	user_follower.removeFollowing(user_followed);
+        manager.persist(user_follower);
+        manager.getTransaction().commit();
+        manager.close();
+        result = true;
     	return result;
     }
 }

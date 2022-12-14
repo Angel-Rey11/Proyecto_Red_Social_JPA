@@ -89,6 +89,12 @@ public class PostDAO extends DAO{
 		return user.getPosts();
 	}
 	
+	/**
+	 * Metodo para añadir like de un post con un usuario
+	 * @param post que le damos like
+	 * @param u con el cual le damos like
+	 * @return true si todo va bien
+	 */
 	public boolean addLike(Post post, User u) {
 		boolean result = false;
 		manager = Connection.getConnect().createEntityManager();
@@ -105,12 +111,20 @@ public class PostDAO extends DAO{
 		return result;
 	}
 	
+	/**
+	 * Metodo para eliminar un like
+	 * @param post del que queremos eliminar un like
+	 * @param u usuario con el que le dimos like
+	 * @return true si lo ha eliminado
+	 */
 	public boolean removeLike(Post post, User u) {
 		boolean result = false;
 		manager = Connection.getConnect().createEntityManager();
 		post = manager.find(Post.class, post.getId());
+		u = manager.find(User.class, u.getId());
 		manager.getTransaction().begin();
     	post.getUserLikes().size();
+    	u.getPostsLikes().size();
     	post.removeLikes(u);
         manager.persist(post);
         manager.getTransaction().commit();
@@ -119,6 +133,11 @@ public class PostDAO extends DAO{
 		return result;
 	}
 	
+	/**
+	 * Metodo para contar el numero de likes y setearlo en un label
+	 * @param p que queremos contar likes
+	 * @return el entero con el numero de likes
+	 */
 	public int getCountLikes(Post p) {
 		manager = Connection.getConnect().createEntityManager();
 		p = manager.find(Post.class, p.getId());
@@ -127,13 +146,21 @@ public class PostDAO extends DAO{
 		return count;
 	}
 	
+	/**
+	 * Metodo que comprueba si el usuario ha dado me gusta o no
+	 * @param p post del que queremos comprobar
+	 * @param u usuario que queremos ver si ha dado like
+	 * @return true si existe el usuario en el array de likes
+	 */
 	public boolean validatePost(Post p, User u) {
 		boolean result = false;
 		manager = Connection.getConnect().createEntityManager();
 		p = manager.find(Post.class, p.getId());
 		p.getUserLikes().size();
-		if(p.getUserLikes().contains(u)) {
-			result = true;
+		for(User user : p.getUserLikes()) {
+			if(user.getId()==u.getId()) {
+				result = true;
+			}
 		}
 		manager.close();
 		return result;

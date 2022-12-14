@@ -53,11 +53,13 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo para dar me gusta a un post se ejecuta al pulsar el boton
 	 */
 	private void mg() {
-		if(pDAO.addLike(this.post, userLogeado)) {
+		if(this.post.getUser().getId()!=userLogeado.getId() && pDAO.addLike(this.post, userLogeado) ) {
 			mg.setDisable(true);
 			dmg.setDisable(false);
 			img1.setVisible(false);
 			img2.setVisible(true);
+		} else {
+			Dialog.showError("ERROR", "ERROR AL DAR LIKE", "NO PUEDES DAR LIKE A TU PROPIO POST");
 		}
 		Loggers.LogsInfo("HAS DADO LIKE A UNA PUBLICACIÓN");
 	}
@@ -67,11 +69,13 @@ public class PostController extends DataService implements Initializable {
 	 * Metodo para quitar un like de un post se ejecuta al pulsar el boton
 	 */
 	private void dmg() {
-		if(pDAO.removeLike(this.post, userLogeado)) {
+		if(this.post.getUser().getId()!=userLogeado.getId() && pDAO.removeLike(this.post, userLogeado)) {
 			mg.setDisable(false);
 			dmg.setDisable(true);
 			img1.setVisible(true);
 			img2.setVisible(false);
+		} else {
+			Dialog.showError("ERROR", "ERROR AL DAR LIKE", "NO PUEDES ELIMINAR UN LIKE A TU PROPIO POST");
 		}
 		Loggers.LogsInfo("HAS DADO DISLIKE A UNA PUBLICACIÓN");
 	}
@@ -116,13 +120,9 @@ public class PostController extends DataService implements Initializable {
 	 */
 	public void initializePrivado(){
 		boolean encontrado= false;
-		if(post.getUserLikes()!=null){
-			nLikes.setText(pDAO.getCountLikes(post)+"");
-		}
-		if(post.getComments()!=null){
-			nComments.setText(cDAO.getCommentsCount(post)+" ");
-		}
-			if(pDAO.validatePost(this.post, userLogeado)) {
+		nLikes.setText(pDAO.getCountLikes(post)+"");
+		nComments.setText(cDAO.getCommentsCount(post)+" ");
+		if(pDAO.validatePost(this.post, userLogeado)) {
 				encontrado=true;
 		}
 		if(encontrado){

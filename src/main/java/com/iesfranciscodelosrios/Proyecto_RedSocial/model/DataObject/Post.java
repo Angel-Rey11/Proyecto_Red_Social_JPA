@@ -87,14 +87,24 @@ public class Post implements Serializable {
 	public List<User> getUserLikes() {
 		return userLikes;
 	}
-
-	public void setUserLikes(List<User> userLikes) {
-		//if (userLikes == null) return;
-		//for (User l: userLikes) {
-			//this.addUserLikes(l);
-		//};
+	
+	public List<Comment> getComments() {
+		return comments;
 	}
 	
+	public void setUserLikes(List<User> userLikes) {
+		this.userLikes = userLikes;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	/**
+	 * Metodo para añadir likes al array de user en post
+	 * @param u el usuario que ha dado like
+	 * @return true si todo ha ido bien
+	 */
 	public boolean addLikes (User u) {
 		boolean result = false;
 		if(this.userLikes == null) {
@@ -110,40 +120,26 @@ public class Post implements Serializable {
 		return result;
 	}
 	
+	/**
+	 * Metodo para eliminar likes al array de user en post
+	 * @param u el usuario que ha dado like
+	 * @return true si todo ha ido bien
+	 */
 	public boolean removeLikes (User u) {
 		boolean result = false;
 		if(this.userLikes != null) {
 			if(this.userLikes.contains(u)) {
 				this.userLikes.remove(u);
+				u.removePostLikes(this);
 			}
 			result = true;
 		} 	
 		return result;
 	}
 
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> userComments) {
-		if (userComments == null) return;
-		for (Comment c: userComments) {
-			this.addUserComments(c);
-		};
-	}
 	
-	public boolean addUserComments(Comment c) {
-		boolean result = false;
-		if (this.comments == null) {
-			this.comments = new ArrayList<>();
-			this.comments.add(c);
-			result = true;
-		} else {
-			this.comments.add(c);
-			result = true;
-		}
-		return result;
-	}
+
+	
 
 	@Override
 	public String toString() {

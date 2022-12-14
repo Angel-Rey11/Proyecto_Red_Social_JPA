@@ -95,37 +95,29 @@ public class User implements Serializable {
 		return posts;
 	}
 	
-	public void setPosts(List<Post> posts) {
-		if (posts == null) return;
-		for (Post p: posts) {
-			this.addPosts(p);
-		};
-	}
-	
-	public boolean addPosts(Post p) {
-		boolean result = false;
-		if(this.posts == null) {
-			this.posts = new ArrayList<>();
-			this.posts.add(p);
-			result = true;
-		} else {
-			this.posts.add(p);
-			result = true;
-		}
-		return result;
-	}
-	
 	public List<User> getFollowers() {
 		return followers;
 	}
 	
-	public void setFollowers(List<User> followers) {
-		if (followers == null) return;
-		for (User u: followers) {
-			this.addFollowers(u);
-		};
+	public List<Comment> getPostComments() {
+		return postComments;
 	}
 	
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+	
+	public void setPostComments(List<Comment> postComments) {
+		this.postComments = postComments;
+	}
+	
+	public void setFollowing(List<User> following) {
+		this.following = following;
+	}
 	/**
 	 * Metodo para añadir el usuario que seguimos a su lista de seguidores
 	 * @param u usuario logeado
@@ -154,13 +146,6 @@ public class User implements Serializable {
 	
 	public List<User> getFollowing() {
 		return following;
-	}
-	
-	public void setFollowing(List<User> following) {
-		if (following == null) return;
-		for (User u: following) {
-			this.addFollowing(u);
-		};
 	}
 	
 	/**
@@ -205,39 +190,43 @@ public class User implements Serializable {
 	}
 	
 	public void setPostsLikes(List<Post> postsLikes) {
-		if (postsLikes == null) return;
-		for (Post l: postsLikes) {
-			this.addPostLikes(l);
-		};
+		this.postsLikes = postsLikes;
 	}
 	
+	/**
+	 * Metodo para añadir likes al array de likes del usuario
+	 * @param p que queremos introducir
+	 * @return true si todo esta correcto
+	 */
 	public boolean addPostLikes(Post p) {
 		boolean result = false;
-		this.postsLikes.add(p);
+		if(this.postsLikes == null) {
+			this.postsLikes = new ArrayList<>();
+		} 
+		
+		if(!this.postsLikes.contains(p)) {
+			this.postsLikes.add(p);
+			p.addLikes(this);
+		}
+		result = true;
+		
 		return result;
 	}
 	
-	public List<Comment> getPostComments() {
-		return postComments;
-	}
-	
-	public void setPostComments(List<Comment> postComments) {
-		if (postComments == null) return;
-		for (Comment c: postComments) {
-			this.addPostsComments(c);
-		};
-	}
-	
-	public boolean addPostsComments(Comment c) {
+	/**
+	 * Metodo para eliminar likes al array de likes del usuario
+	 * @param p que queremos eliminar
+	 * @return true si ha podido eliminarlo
+	 */
+	public boolean removePostLikes(Post p) {
 		boolean result = false;
-		if(this.postComments == null) {
-			this.postComments = new ArrayList<>();
-			this.postComments.add(c);
-			result = true;
-		} else {
-			this.postComments.add(c);
-			result = true;
-		}
+		if(this.postsLikes != null) {
+			if(this.postsLikes.contains(p)) {
+				this.postsLikes.remove(p);
+				p.removeLikes(this);
+				result = true;
+			}
+		}	
 		return result;
 	}
 	

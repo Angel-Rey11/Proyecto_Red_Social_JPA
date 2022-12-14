@@ -12,7 +12,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.Conexion.Connection;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
 import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.User;
 
-public class PostDAO {
+public class PostDAO extends DAO{
 	
 	//CONSULTAS DE MariaDB
 	//FIN DE LAS CONSULTAS
@@ -23,16 +23,7 @@ public class PostDAO {
 	 * @return true si se añade los post, false si no se han insertado correctamente.
 	 */
 	public boolean create(Post post) {
-		manager = Connection.getConnect().createEntityManager();
-		boolean result = false;
-		if(!manager.contains(post)) {
-			manager.getTransaction().begin();
-		    manager.persist(post);
-		    manager.getTransaction().commit();
-			result = true;
-		    manager.close();
-		}
-		 return result;
+		return super.create(post);
 	}
 
 	/**
@@ -41,18 +32,7 @@ public class PostDAO {
 	 * @return true si se elimina correctamente todos los post, false si no se ha eliminado.
 	 */
 	public boolean delete(Post post) {
-		manager = Connection.getConnect().createEntityManager();
-		post = manager.find(Post.class, post.getId());
-		boolean result = false;
-		if(manager.contains(post)) {
-			manager.getTransaction().begin();
-		    manager.remove(post);
-		    manager.getTransaction().commit();
-		    result=true;
-		    manager.close();
-		}
-		 return result;
-		
+		return super.delete(post, Post.class, post.getId());
 	}
 
 	/**
@@ -61,17 +41,7 @@ public class PostDAO {
 	 * si no se han actualizado.
 	 */
 	public boolean update(Post post) {
-		manager = Connection.getConnect().createEntityManager();
-		boolean result = false;
-		if(manager.contains(post)) {
-			manager.getTransaction().begin();
-		    manager.merge(post);
-		    result=true;
-		    manager.getTransaction().commit();
-		    manager.close();
-		}
-		 return result;
-		
+		return super.update(post);
 	}
 
 	/**
@@ -82,11 +52,7 @@ public class PostDAO {
 	 * @return el post obtenido o null si no existe.
 	 */
 	public Post find(int id) {
-		manager = Connection.getConnect().createEntityManager();
-        Post post = null;
-        post = manager.find(Post.class,id);
-        manager.close();
-        return post;
+		return (Post) super.find(id, Post.class);
 	}
 	
 	/**

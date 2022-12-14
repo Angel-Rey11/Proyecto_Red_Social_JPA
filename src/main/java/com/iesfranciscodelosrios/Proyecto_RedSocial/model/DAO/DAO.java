@@ -50,6 +50,7 @@ public class DAO<T> {
                 manager.getTransaction().begin();
                 manager.remove(o);
                 manager.getTransaction().commit();
+                manager.close();
                 removed = true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,6 +66,7 @@ public class DAO<T> {
             manager.getTransaction().begin();
             T o = manager.find(c, id);
             manager.getTransaction().commit();
+            manager.close();
             return o;
         } catch (Exception e) {
             e.printStackTrace();

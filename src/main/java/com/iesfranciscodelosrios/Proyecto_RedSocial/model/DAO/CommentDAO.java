@@ -16,7 +16,7 @@ import com.iesfranciscodelosrios.Proyecto_RedSocial.model.DataObject.Post;
  * @author Francisco Berral, Antonio Jesús Luque, Francisco Prados, Ángel Rey  
  *
  */
-public class CommentDAO {
+public class CommentDAO extends DAO{
 
 	private static EntityManager manager;
 	
@@ -25,16 +25,7 @@ public class CommentDAO {
 	 * @return Si el comentario ha sido añadido
 	 */
 	public boolean create(Comment c) {
-		boolean added = false;
-		
-		manager = Connection.getConnect().createEntityManager();
-		manager.getTransaction().begin();
-		manager.persist(c);
-		added = true;
-		manager.getTransaction().commit();
-		manager.close();
-		
-		return added;
+		return super.create(c);
 	}
 
 	/**
@@ -42,17 +33,7 @@ public class CommentDAO {
 	 * @return Si el comentario ha sido borrado
 	 */
 	public boolean delete(Comment c) {
-		boolean removed = false;
-		manager = Connection.getConnect().createEntityManager();
-		c = manager.find(Comment.class, c.getId());
-		if(manager.contains(c)) {
-			manager.getTransaction().begin();
-			manager.remove(c);
-			manager.getTransaction().commit();
-			removed = true;
-			manager.close();
-		}
-		return removed;
+		return super.delete(c, Comment.class, c.getId());
 	}
 
 	/**
@@ -60,19 +41,7 @@ public class CommentDAO {
 	 * @return Si el comentario ha sido modificado
 	 */
 	public boolean update(Comment c) {
-		boolean updated = false;
-		
-		manager = Connection.getConnect().createEntityManager();
-		manager.getTransaction().begin();
-		c.setId(c.getId());
-		c.setText(c.getText());
-		c.setDate(c.getDate());
-		manager.merge(c);
-		updated = true;
-		manager.getTransaction().commit();
-		manager.close();
-		
-		return updated;
+		return super.update(c);
 	}
 
 	/**
@@ -81,13 +50,7 @@ public class CommentDAO {
 	 * @return Comentario encontrado
 	 */
 	public Comment find(int id) {
-		Comment c = null;
-		
-		manager = Connection.getConnect().createEntityManager();
-		c = manager.find(Comment.class, id);
-		manager.close();
-		
-		return c;
+		return (Comment) super.find(id, Comment.class);
 	}
 	
 	/**

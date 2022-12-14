@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-public class UserDAO {
+public class UserDAO extends DAO{
 
     private static EntityManager manager;
     private static EntityManagerFactory emf;
@@ -21,17 +21,7 @@ public class UserDAO {
      * @return true si se ha insertado correctamente
      */
     public boolean insert(User user) {
-    	emf = Persistence.createEntityManagerFactory("sql");
-        manager = emf.createEntityManager();
-    	boolean result=false;
-    	if(!manager.contains(user)) {
-    		 manager.getTransaction().begin();
-             manager.persist(user);
-             result = true;
-             manager.getTransaction().commit();
-             manager.close();
-    	}
-    	return result;
+        return super.create(user);
     }
 
     /**
@@ -39,16 +29,7 @@ public class UserDAO {
      * @return true si se ha eliminado correctamente
      */
     public boolean delete(User user) {
-    	manager = Connection.getConnect().createEntityManager();
-    	boolean result=false;
-    	if(manager.contains(user)) {
-    		 manager.getTransaction().begin();
-             manager.remove(user);
-             manager.getTransaction().commit();
-             result = true;
-             manager.close();
-    	}
-    	return result;
+        return super.delete(user, User.class, user.getId());
     }
 
     /**
@@ -56,20 +37,15 @@ public class UserDAO {
      * @return true si se ha actualizado correctamente
      */
     public boolean update(User user) {
-    	manager = Connection.getConnect().createEntityManager();
-    	boolean result=false;
-    	if(manager.contains(user)) {
-    		 manager.getTransaction().begin();
-             user.setNickname(user.getNickname());
-             user.setName(user.getName());
-             user.setBiografia(user.getBiografia());
-             user.setPassword(user.getPassword());
-             manager.merge(user);
-             result = true;
-             manager.getTransaction().commit();
-             manager.close();
-    	}
-    	return result;
+        return super.update(user);
+    }
+    /**
+     * Busca a un usuario en la base de datos por su id
+     * @param id id del usuario
+     * @return El usuario encontrado
+     */
+    public User find(int id) {
+        return (User) super.find(id, User.class);
     }
 
     /**
@@ -114,18 +90,6 @@ public class UserDAO {
     	u.getFollowing().size();
     	manager.close();
     	return u.getFollowing();
-    }
-    
-    /**
-     * Busca a un usuario en la base de datos por su id
-     * @param id id del usuario
-     * @return El usuario encontrado
-     */
-    public User find(int id) {
-    	manager = Connection.getConnect().createEntityManager();
-        User aux = manager.find(User.class, id);
-        manager.close();
-        return aux;
     }
     
     /**

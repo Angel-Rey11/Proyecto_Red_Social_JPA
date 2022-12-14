@@ -88,5 +88,15 @@ public class PostDAO extends DAO{
 		manager.close();
 		return user.getPosts();
 	}
+	
+	public boolean addLike(Post post) {
+		boolean result = false;
+		return result;
+	}
+	
+	public boolean removeLike(Post post) {
+		boolean result = false;
+		return result;
+	}
 
 }

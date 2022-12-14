@@ -121,4 +121,14 @@ public class UserDAO extends DAO{
         manager.close();
         return misUsers;
     }
+    
+    public boolean addFollow(User u, User aux) {
+    	boolean result = false;
+    	return result;
+    }
+    
+    public boolean removeFollow(User u, User aux) {
+    	boolean result = false;
+    	return result;
+    }
 }
